@@ -10,17 +10,6 @@ public enum BusinessErrorEnum implements CommonError
 
     PARAMETER_VALIDATION_ERROR(1000, "参数不合法"),
 
-    BUILDINGNO_EMPTY_ERROR(2002,"楼号不能为空"),
-
-    FLOOR_EMPTY_ERROR(2003,"楼层不能为空"),
-
-    ROOM_EMPTY_ERROR(2004,"房间号不能为空"),
-
-    ROOMSIZE_EMPTY_ERROR(2005,"房间大小不能为空"),
-
-    ROOM_NOT_EXIST(2006,"房间不存在"),
-
-    ROOM_EXIST(2007,"房间已存在"),
 
     INSERT_FAILED(2008, "插入失败"),
 
