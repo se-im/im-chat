@@ -1,10 +1,10 @@
 package com.im.chat.enums;
 
-public enum CvsTypeConst {
-    U(Byte.valueOf("0")),
-    G(Byte.valueOf("1"));
+public enum CvsStickEnum {
+    CLOSE(Byte.valueOf("0")),
+    OPEN(Byte.valueOf("1"));
 
-    CvsTypeConst(Byte code)
+    CvsStickEnum(Byte code)
     {
         this.code = code;
     }

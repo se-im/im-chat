@@ -38,6 +38,10 @@ dubbo:
   protocol:
     name: dubbo
     port: 20002
+  consumer:
+    timeout: 20000
+  provider:
+    timeout: 20000
 
 
 
