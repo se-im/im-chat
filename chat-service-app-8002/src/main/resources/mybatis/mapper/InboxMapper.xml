@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im.chat.mapper.InboxMapper">
+  <resultMap id="BaseResultMap" type="com.im.chat.entity.po.Inbox">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    
+    <!-- 谁的收件箱 -->
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    
+    <!-- 对应的消息id -->
+    <result column="message_id" jdbcType="BIGINT" property="messageId" />
+    
+    <!-- 消息体内容 -->
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    
+    <!-- 消息类型；0-文本消息；1-图片消息 -->
+    <result column="msg_type" jdbcType="TINYINT" property="msgType" />
+    
+    <!-- 对应的会话id -->
+    <result column="cvs_id" jdbcType="BIGINT" property="cvsId" />
+    
+    <!-- 对应的会话名 -->
+    <result column="cvs_name" jdbcType="VARCHAR" property="cvsName" />
+    
+    <!-- 消息创建时间，跟消息体时间保持一致 -->
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    
+    <!-- 消息是否已读：0-没有；1-已读 -->
+    <result column="readed" jdbcType="TINYINT" property="readed" />
+    
+    <!-- 消息更新时间 -->
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    
+    <!-- 发送人id -->
+    <result column="sender_id" jdbcType="BIGINT" property="senderId" />
+    
+    <!-- 发送人姓名 -->
+    <result column="sender_name" jdbcType="VARCHAR" property="senderName" />
+    
+    <!-- 发送人的头像 -->
+    <result column="sender_avatar_url" jdbcType="VARCHAR" property="senderAvatarUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, owner_id, message_id, msg, msg_type, cvs_id, cvs_name, create_time, readed, update_time, 
+    sender_id, sender_name, sender_avatar_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from im_inbox
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from im_inbox
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert">
+    insert into im_inbox (id, owner_id, message_id, 
+      msg, msg_type, cvs_id, 
+      cvs_name, create_time, readed, 
+      update_time, sender_id, sender_name, 
+      sender_avatar_url)
+    values (#{id,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT}, #{messageId,jdbcType=BIGINT}, 
+      #{msg,jdbcType=VARCHAR}, #{msgType,jdbcType=TINYINT}, #{cvsId,jdbcType=BIGINT}, 
+      #{cvsName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{readed,jdbcType=TINYINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{senderId,jdbcType=BIGINT}, #{senderName,jdbcType=VARCHAR}, 
+      #{senderAvatarUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective">
+    insert into im_inbox
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="cvsId != null">
+        cvs_id,
+      </if>
+      <if test="cvsName != null">
+        cvs_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="readed != null">
+        readed,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="senderId != null">
+        sender_id,
+      </if>
+      <if test="senderName != null">
+        sender_name,
+      </if>
+      <if test="senderAvatarUrl != null">
+        sender_avatar_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=BIGINT},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="cvsId != null">
+        #{cvsId,jdbcType=BIGINT},
+      </if>
+      <if test="cvsName != null">
+        #{cvsName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readed != null">
+        #{readed,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=BIGINT},
+      </if>
+      <if test="senderName != null">
+        #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderAvatarUrl != null">
+        #{senderAvatarUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective">
+    update im_inbox
+    <set>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="messageId != null">
+        message_id = #{messageId,jdbcType=BIGINT},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="cvsId != null">
+        cvs_id = #{cvsId,jdbcType=BIGINT},
+      </if>
+      <if test="cvsName != null">
+        cvs_name = #{cvsName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readed != null">
+        readed = #{readed,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="senderId != null">
+        sender_id = #{senderId,jdbcType=BIGINT},
+      </if>
+      <if test="senderName != null">
+        sender_name = #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderAvatarUrl != null">
+        sender_avatar_url = #{senderAvatarUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey">
+    update im_inbox
+    set owner_id = #{ownerId,jdbcType=BIGINT},
+      message_id = #{messageId,jdbcType=BIGINT},
+      msg = #{msg,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=TINYINT},
+      cvs_id = #{cvsId,jdbcType=BIGINT},
+      cvs_name = #{cvsName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      readed = #{readed,jdbcType=TINYINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      sender_id = #{senderId,jdbcType=BIGINT},
+      sender_name = #{senderName,jdbcType=VARCHAR},
+      sender_avatar_url = #{senderAvatarUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- Generate time: 2020-08-21 15:02:21 ### -->
+
+
+  <!-- Your codes goes here!!! -->
+  
+</mapper>

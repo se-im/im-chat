@@ -51,7 +51,7 @@
             <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.mr.entity.po" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.im.chat.entity.po" targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
@@ -60,7 +60,7 @@
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.mr.mapper"  targetProject="src/main/java" >
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.im.chat.mapper"  targetProject="src/main/java" >
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
@@ -77,7 +77,11 @@
         <!--enableUpdateByExample="false" enableSelectByExample="false" />-->
 
 
-        <table tableName="mr_room" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Room"
+        <table tableName="im_session_view" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="SessionView"
+               enableUpdateByExample="false" enableSelectByExample="false" />
+        <table tableName="im_message" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Message"
+               enableUpdateByExample="false" enableSelectByExample="false" />
+        <table tableName="im_inbox" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Inbox"
                enableUpdateByExample="false" enableSelectByExample="false" />
 <!--        <table tableName="task" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--               enableUpdateByExample="false" enableSelectByExample="false" />-->
