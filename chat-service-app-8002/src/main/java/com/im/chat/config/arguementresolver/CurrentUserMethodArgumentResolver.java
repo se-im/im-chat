@@ -1,7 +1,7 @@
 package com.im.chat.config.arguementresolver;
 
 import com.im.chat.annotation.CurrentUser;
-import com.mr.entity.po.User;
+import com.im.user.entity.po.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

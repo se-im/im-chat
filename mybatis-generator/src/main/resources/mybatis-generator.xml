@@ -42,7 +42,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://zmz121.cn/meetingroom"
+                        connectionURL="jdbc:mysql://zmz121.cn/im"
                         userId="root"
                         password="cloudalibaba">
         </jdbcConnection>

@@ -2,8 +2,8 @@ package com.im.chat.config.interceptor;
 
 import com.im.chat.constant.TokenHashConst;
 import com.im.chat.util.Jwtutil;
+import com.im.user.entity.po.User;
 import com.mr.common.RedisPrefixConst;
-import com.mr.entity.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -2,7 +2,8 @@ package com.im.chat.mapper;
 
 import com.im.chat.entity.po.Inbox;
 
-public interface InboxMapper {
+public interface InboxMapper
+{
     int deleteByPrimaryKey(Long id);
 
     int insert(Inbox record);

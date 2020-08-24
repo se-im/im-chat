@@ -63,30 +63,6 @@ public class Inbox {
     private String cvsName;
 
     /**
-     * 消息创建时间，跟消息体时间保持一致
-     *
-     * Column:    create_time
-     * Nullable:  false
-     */
-    private Date createTime;
-
-    /**
-     * 消息是否已读：0-没有；1-已读
-     *
-     * Column:    readed
-     * Nullable:  false
-     */
-    private Byte readed;
-
-    /**
-     * 消息更新时间
-     *
-     * Column:    update_time
-     * Nullable:  false
-     */
-    private Date updateTime;
-
-    /**
      * 发送人id
      *
      * Column:    sender_id
@@ -109,4 +85,36 @@ public class Inbox {
      * Nullable:  false
      */
     private String senderAvatarUrl;
+
+    /**
+     * 消息是否已读：0-没有；1-已读
+     *
+     * Column:    readed
+     * Nullable:  false
+     */
+    private Byte readed;
+
+    /**
+     * 消息是否推到了端侧;0-false;1-true
+     *
+     * Column:    sended
+     * Nullable:  true
+     */
+    private Byte sended;
+
+    /**
+     * 消息创建时间，跟消息体时间保持一致
+     *
+     * Column:    create_time
+     * Nullable:  false
+     */
+    private Date createTime;
+
+    /**
+     * 消息更新时间
+     *
+     * Column:    update_time
+     * Nullable:  false
+     */
+    private Date updateTime;
 }

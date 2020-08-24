@@ -1,7 +1,7 @@
 package com.im.chat.service;
 
+import com.im.user.service.IUserService;
 import com.mr.response.error.BusinessException;
-import com.mr.service.IUserService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.junit.Test;
 import org.junit.runner.RunWith;

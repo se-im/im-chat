@@ -156,7 +156,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <!-- Generate time: 2020-08-21 15:02:21 ### -->
+  <!-- Generate time: 2020-08-24 15:39:47 ### -->
 
 
   <!-- Your codes goes here!!! -->
