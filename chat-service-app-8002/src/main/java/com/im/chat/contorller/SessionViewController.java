@@ -2,13 +2,18 @@ package com.im.chat.contorller;
 
 
 import com.im.chat.annotation.CurrentUser;
+import com.im.chat.entity.po.SessionView;
+import com.im.chat.entity.vo.SessionViewVo;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
 import com.mr.response.error.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController("/chat/cvs/")
 public class SessionViewController
@@ -30,4 +35,11 @@ public class SessionViewController
         }
 
     }
+
+    @GetMapping("/list")
+    public List<SessionViewVo> queryMySessionViewList(@CurrentUser User user)
+    {
+        return null;
+    }
+
 }
