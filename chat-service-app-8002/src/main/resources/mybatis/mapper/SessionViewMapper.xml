@@ -57,7 +57,8 @@
     from im_session_view
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from im_session_view
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -243,5 +244,11 @@
 
 
   <!-- Your codes goes here!!! -->
-  
+  <select id="selectByUserId" resultType="com.im.chat.entity.po.SessionView">
+    select
+    <include refid="Base_Column_List" />
+    from im_session_view
+    where owner_id = #{userId,jdbcType=BIGINT} and deleted
+
+  </select>
 </mapper>
