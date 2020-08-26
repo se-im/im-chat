@@ -1,4 +1,4 @@
-package com.im.chat.contorller;
+package com.im.chat.contoller;
 
 
 import io.swagger.annotations.Api;

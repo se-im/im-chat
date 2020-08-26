@@ -1,4 +1,4 @@
-package com.im.chat.contorller;
+package com.im.chat.contoller;
 
 
 import com.im.chat.annotation.CurrentUser;
