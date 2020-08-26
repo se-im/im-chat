@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-image_name="im-user"
+image_name="im-chat"
 
-container_name="im-user-c"
+container_name="im-chat-c"
 
 old_container=$(sudo docker ps -a | grep $container_name | awk '{print $1}')
 
