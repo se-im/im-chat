@@ -1,6 +1,5 @@
 package com.im.chat.service.strategy;
 
-
 import com.im.chat.annotation.SessionViewStrategyAnnotation;
 import com.im.chat.entity.po.SessionView;
 import com.im.chat.enums.CvsTypeEnum;

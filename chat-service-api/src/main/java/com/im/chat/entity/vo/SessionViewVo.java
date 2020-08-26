@@ -2,9 +2,11 @@ package com.im.chat.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 @ApiModel("会话识图简略信息")
 public class SessionViewVo
 {
@@ -40,7 +42,6 @@ public class SessionViewVo
     @ApiModelProperty("会话最近一条消息发送时间")
     private Date lastMessageTime;
 
-
     //TODO  创建枚举并转化
     /**
      * 消息免打扰；0-关闭；1-开启；默认关闭
@@ -49,7 +50,6 @@ public class SessionViewVo
 
     /**
      *  会话置顶；0-false；1-true；默认false
-     *
      * Column:    stick
      * Nullable:  false
      */
@@ -57,7 +57,6 @@ public class SessionViewVo
 
     /**
      * 扩展字段
-     *
      */
     private String ext;
 }

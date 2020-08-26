@@ -52,7 +52,7 @@ public class Swagger2Configuration {
         return new ApiInfoBuilder()
                 .title("会议室系统聊天模块前后端交互api")
                 .description("会议室系统聊天模块前后端交互api")
-                .termsOfServiceUrl("http://localhost:8001/")
+                .termsOfServiceUrl("http://localhost:8002/")
                 .version("1.0")
                 .build();
     }

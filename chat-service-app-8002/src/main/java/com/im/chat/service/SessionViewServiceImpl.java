@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Component
 @Service
@@ -36,9 +37,25 @@ public class SessionViewServiceImpl implements ISessionViewService {
     @Override
     public void createSessionView(Long userId, CvsTypeEnum cvsType, Long entityId) throws BusinessException {
 
-
         SessionViewCreatorStrategy strategy = sessionViewCreatorContext.getStrategy(cvsType);
         strategy.createSessionView(userId, entityId);
+    }
 
+    @Override
+    public List<SessionView> queryMySessionViewList(Long userId) {
+        List<SessionView> sessionViews = sessionViewMapper.selectByUserId(userId);
+        return sessionViews;
+    }
+
+    @Override
+    public void deleteSessionView(Long userId,Long cvsId) throws BusinessException {
+        SessionView sessionView = sessionViewMapper.selectByPrimaryKey(cvsId);
+        if(sessionView == null){
+            throw new BusinessException("会话视图不存在！");
+        }
+        int res = sessionViewMapper.deleteByUserIdCvsId(userId, cvsId);
+        if(res < 1){
+            throw new BusinessException("删除会话视图失败！");
+        }
     }
 }

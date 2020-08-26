@@ -1,6 +1,9 @@
 package com.im.chat.mapper;
 
 import com.im.chat.entity.po.SessionView;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SessionViewMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,10 @@ public interface SessionViewMapper {
     int updateByPrimaryKeySelective(SessionView record);
 
     int updateByPrimaryKey(SessionView record);
+
+    List<SessionView> selectByUserId(Long userId);
+
+    int deleteByUserIdCvsId(@Param("userId")Long userId,@Param("cvsId") Long cvsId);
+
+
 }
