@@ -1,4 +1,4 @@
-package com.im.chat.contoller;
+package com.im.chat.controller;
 
 
 import io.swagger.annotations.Api;
