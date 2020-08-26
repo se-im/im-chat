@@ -12,4 +12,6 @@ public interface ISessionViewService {
     public void createSessionView(Long userId, CvsTypeEnum cvsType, Long entityId) throws BusinessException;
 
     public List<SessionView> queryMySessionViewList(Long userId);
+
+    public void deleteSessionView(Long userId,Long cvsId) throws BusinessException;
 }

@@ -62,6 +62,7 @@
     delete from im_session_view
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert">
     insert into im_session_view (id, cvs_name, owner_id, 
       cvs_type, relation_entity_id, avatar_url, 
@@ -248,7 +249,13 @@
     select
     <include refid="Base_Column_List" />
     from im_session_view
-    where owner_id = #{userId,jdbcType=BIGINT} and deleted
+    where owner_id = #{userId,jdbcType=BIGINT}
 
   </select>
+
+
+  <delete id="deleteByUserIdCvsId">
+    delete from im_session_view
+    where owner_id = #{userId,jdbcType=BIGINT} and id = #{userId,jdbcType=BIGINT}
+  </delete>
 </mapper>

@@ -14,7 +14,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,13 +61,10 @@ public class SessionViewController
     }
 
     //TODO
-    //删除会话视图的接口
-
     @ApiOperation(value = "删除会话视图")
     @GetMapping("/delete")
-    public ServerResponse<String> deleteSessionView(@CurrentUser @ApiIgnore User user)
-    {
-
+    public ServerResponse<String> deleteSessionView(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
+        iSessionViewService.deleteSessionView(user.getId(),cvsId);
         return ServerResponse.success();
     }
 
