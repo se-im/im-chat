@@ -38,11 +38,11 @@ dubbo:
   protocol:
     name: dubbo
     port: 20002
+    serialization: kryo
   consumer:
     timeout: 20000
   provider:
     timeout: 20000
-
 
 
 mybatis:
