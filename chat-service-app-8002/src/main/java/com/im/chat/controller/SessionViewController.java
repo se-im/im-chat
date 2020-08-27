@@ -34,8 +34,8 @@ public class SessionViewController
     //cvsType --> U单聊  G群聊
     @ApiOperation(value = "创建群聊")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsType", value = "会话类型", required = true,dataType = "String"),
-            @ApiImplicitParam(name = "entityId", value = "会话关联的实体Id", required = true,dataType = "Long")
+            @ApiImplicitParam(name = "cvsType", value = "会话类型", required = true,dataType = "String", example = "U"),
+            @ApiImplicitParam(name = "entityId", value = "会话关联的实体Id", required = true,dataType = "Long", example = "18")
     }
     )
     @PostMapping("/create")
