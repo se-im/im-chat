@@ -19,7 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Api(tags = "会话相关的api")
@@ -50,14 +54,11 @@ public class SessionViewController
     public ServerResponse<List<SessionViewVo>> queryMySessionViewList(@CurrentUser @ApiIgnore User user)
     {
         List<SessionView> sessionViews = iSessionViewService.queryMySessionViewList(user.getId());
-        List<SessionViewVo> sessionViewVos = new ArrayList<SessionViewVo>();
+        List<SessionViewVo> sessionViewVoList = new ArrayList<SessionViewVo>();
         for(SessionView sessionView:sessionViews){
-            SessionViewVo sessionViewVo = new SessionViewVo();
-            BeanUtils.copyProperties(sessionView,sessionViewVo);
-            sessionViewVo.setNotDisturb(CvsNotDisturbEnum.codeOf(sessionView.getNotDisturb()).getStatus());
-            sessionViewVos.add(sessionViewVo);
+            sessionViewVoList.add(convertSessionView(sessionView));
         }
-        return ServerResponse.success(sessionViewVos);
+        return ServerResponse.success(sessionViewVoList);
     }
 
     //TODO
@@ -66,6 +67,26 @@ public class SessionViewController
     public ServerResponse<String> deleteSessionView(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
         iSessionViewService.deleteSessionView(user.getId(),cvsId);
         return ServerResponse.success();
+    }
+
+
+    private SessionViewVo convertSessionView(SessionView sessionView)
+    {
+        SessionViewVo sessionViewVo = new SessionViewVo();
+        BeanUtils.copyProperties(sessionView,sessionViewVo);
+        sessionViewVo.setNotDisturb(CvsNotDisturbEnum.codeOf(sessionView.getNotDisturb()).getStatus());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime lastMessageTime = sessionView.getLastMessageTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime todayBeginning = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 0, 0);
+        if(lastMessageTime.isBefore(todayBeginning)){
+            formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
+        }else {
+            formatter = DateTimeFormatter.ofPattern("hh:mm");
+        }
+        sessionViewVo.setLastMessageTimeFormated(formatter.format(lastMessageTime));
+        return sessionViewVo;
     }
 
 

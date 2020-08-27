@@ -42,10 +42,14 @@ public class SessionViewVo
     @ApiModelProperty("会话最近一条消息发送时间")
     private Date lastMessageTime;
 
-    //TODO  创建枚举并转化
+    @ApiModelProperty("会话最近一条消息发送时间,格式化出来过")
+    private String lastMessageTimeFormated;
+
+
     /**
      * 消息免打扰；0-关闭；1-开启；默认关闭
      */
+    @ApiModelProperty("会话是否免打扰")
     private Boolean notDisturb;
 
     /**
@@ -53,10 +57,12 @@ public class SessionViewVo
      * Column:    stick
      * Nullable:  false
      */
+    @ApiModelProperty("会话是否免置顶")
     private Byte stick;
 
     /**
      * 扩展字段
      */
+    @ApiModelProperty("扩展字段")
     private String ext;
 }
