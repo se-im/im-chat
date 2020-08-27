@@ -38,14 +38,9 @@ public class MyWebMvcConfigure extends WebMvcConfigurerAdapter
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(contextInformationInterceptor)
-                .addPathPatterns("/user/**");
+                .addPathPatterns("/chat/**");
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/user/**")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/register")
-                .excludePathPatterns("/user/unlogin")
-                .excludePathPatterns("/user/detail/token");
-
+                .addPathPatterns("/chat/**");
 
     }
 
