@@ -16,23 +16,23 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "会话相关的api")
-@RestController("/chat/cvs/")
+@RestController
+@RequestMapping("/chat/cvs/")
+@CrossOrigin
 public class SessionViewController
 {
     @Autowired
     private ISessionViewService iSessionViewService;
 
     //cvsType --> U单聊  G群聊
-    @ApiOperation(value = "创建群聊")
+    @ApiOperation(value = "创建会话")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cvsType", value = "会话类型", required = true,dataType = "String", example = "U"),
             @ApiImplicitParam(name = "entityId", value = "会话关联的实体Id", required = true,dataType = "Long", example = "18")
