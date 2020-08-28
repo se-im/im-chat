@@ -1,8 +1,12 @@
 package com.im.chat.enums;
 
 public enum CvsNotDisturbEnum {
-    CLOSE(Byte.valueOf("0")),
-    OPEN(Byte.valueOf("1"));
+    /**
+     * CLOSE 关闭
+     * OPEN 开启
+     */
+    CLOSE(Byte.valueOf("0"),false),
+    OPEN(Byte.valueOf("1"),true);
 
     CvsNotDisturbEnum(Byte code)
     {

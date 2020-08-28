@@ -252,10 +252,12 @@
     where owner_id = #{userId,jdbcType=BIGINT}
 
   </select>
+  <select id="selectByUserIdEntityIdCvsType" resultType="com.im.chat.entity.po.SessionView">
+    select
+    <include refid="Base_Column_List" />
+    from im_session_view
+    where owner_id = #{userId,jdbcType=BIGINT} and relation_entity_id = #{entityId,jdbcType=BIGINT} and cvs_type = #{cvsType,jdbcType=INTEGER}
+  </select>
 
 
-  <delete id="deleteByUserIdCvsId">
-    delete from im_session_view
-    where owner_id = #{userId,jdbcType=BIGINT} and id = #{userId,jdbcType=BIGINT}
-  </delete>
 </mapper>

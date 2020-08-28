@@ -48,12 +48,12 @@ public class SessionViewServiceImpl implements ISessionViewService {
     }
 
     @Override
-    public void deleteSessionView(Long userId,Long cvsId) throws BusinessException {
+    public void deleteSessionView(Long cvsId) throws BusinessException {
         SessionView sessionView = sessionViewMapper.selectByPrimaryKey(cvsId);
         if(sessionView == null){
             throw new BusinessException("会话视图不存在！");
         }
-        int res = sessionViewMapper.deleteByUserIdCvsId(userId, cvsId);
+        int res = sessionViewMapper.deleteByPrimaryKey(cvsId);
         if(res < 1){
             throw new BusinessException("删除会话视图失败！");
         }

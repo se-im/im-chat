@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+
 public interface SessionViewMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -20,7 +21,7 @@ public interface SessionViewMapper {
 
     List<SessionView> selectByUserId(Long userId);
 
-    int deleteByUserIdCvsId(@Param("userId")Long userId,@Param("cvsId") Long cvsId);
+    SessionView selectByUserIdEntityIdCvsType(@Param("userId") Long userId,@Param("entityId") Long entityId, @Param("cvsType") Integer cvsType);
 
 
 }

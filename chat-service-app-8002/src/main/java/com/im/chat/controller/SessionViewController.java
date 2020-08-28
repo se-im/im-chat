@@ -5,6 +5,7 @@ import com.im.chat.annotation.CurrentUser;
 import com.im.chat.entity.po.SessionView;
 import com.im.chat.entity.vo.SessionViewVo;
 import com.im.chat.enums.CvsNotDisturbEnum;
+import com.im.chat.enums.CvsStickEnum;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
@@ -47,6 +48,7 @@ public class SessionViewController
 
     @ApiOperation(value = "查找当前用户的所有会话视图")
     @GetMapping("/list")
+    //cvsType 时间Long
     public ServerResponse<List<SessionViewVo>> queryMySessionViewList(@CurrentUser @ApiIgnore User user)
     {
         List<SessionView> sessionViews = iSessionViewService.queryMySessionViewList(user.getId());
@@ -54,7 +56,10 @@ public class SessionViewController
         for(SessionView sessionView:sessionViews){
             SessionViewVo sessionViewVo = new SessionViewVo();
             BeanUtils.copyProperties(sessionView,sessionViewVo);
+            sessionViewVo.setCvsType(CvsTypeEnum.codeOf(sessionView.getCvsType()).getName());
+            sessionViewVo.setStick(CvsStickEnum.codeOf(sessionView.getStick()).getStatus());
             sessionViewVo.setNotDisturb(CvsNotDisturbEnum.codeOf(sessionView.getNotDisturb()).getStatus());
+            sessionViewVo.setLastMessageTime(sessionView.getLastMessageTime().getTime());
             sessionViewVos.add(sessionViewVo);
         }
         return ServerResponse.success(sessionViewVos);
@@ -64,7 +69,7 @@ public class SessionViewController
     @ApiOperation(value = "删除会话视图")
     @GetMapping("/delete")
     public ServerResponse<String> deleteSessionView(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
-        iSessionViewService.deleteSessionView(user.getId(),cvsId);
+        iSessionViewService.deleteSessionView(cvsId);
         return ServerResponse.success();
     }
 

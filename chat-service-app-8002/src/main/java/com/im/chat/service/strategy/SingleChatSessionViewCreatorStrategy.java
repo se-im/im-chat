@@ -28,6 +28,10 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
     @Override
     public void createSessionView(Long userId, Long entityId) throws BusinessException
     {
+        SessionView sessionView1 = sessionViewMapper.selectByUserIdEntityIdCvsType(userId, entityId, CvsTypeEnum.U.getCode());
+        if(sessionView1 != null){
+            throw new BusinessException("会话视图已存在！");
+        }
         UserVo user = iUserService.getUserById(entityId);
         SessionView sessionView = new SessionView();
         sessionView.setCvsName(user.getUsername());

@@ -1,8 +1,12 @@
 package com.im.chat.enums;
 
 public enum CvsTypeEnum {
-    U(0),
-    G(1);
+    /**
+     * U 单聊
+     * G 群聊
+     */
+    U(0,"U"),
+    G(1,"G");
 
     CvsTypeEnum(Integer code)
     {
@@ -25,7 +29,7 @@ public enum CvsTypeEnum {
     public String getName(){
         return this.name;
     }
-    public static CvsTypeEnum codeOf(Byte code) {
+    public static CvsTypeEnum codeOf(Integer code) {
         switch (code)
         {
             case 0: return U;

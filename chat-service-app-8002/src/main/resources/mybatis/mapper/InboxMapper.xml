@@ -232,6 +232,6 @@
     select
     <include refid="Base_Column_List" />
     from im_inbox
-    where owner_id = #{userId,jdbcType=BIGINT} and cvsId = #{cvsId,jdbcType=BIGINT}
+    where owner_id = #{userId,jdbcType=BIGINT} and cvs_id = #{cvsId,jdbcType=BIGINT}
   </select>
 </mapper>

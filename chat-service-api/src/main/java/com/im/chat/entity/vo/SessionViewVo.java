@@ -17,7 +17,7 @@ public class SessionViewVo
     private String cvsName;
 
     @ApiModelProperty("会话类型")
-    private Integer cvsType;
+    private String cvsType;
 
     @ApiModelProperty("会话关联对象的id，群聊为群id，单聊为用户id")
     private Long relationEntityId;
@@ -40,7 +40,7 @@ public class SessionViewVo
 
 
     @ApiModelProperty("会话最近一条消息发送时间")
-    private Date lastMessageTime;
+    private Long lastMessageTime;
 
     //TODO  创建枚举并转化
     /**
@@ -53,10 +53,15 @@ public class SessionViewVo
      * Column:    stick
      * Nullable:  false
      */
-    private Byte stick;
+    private Boolean stick;
 
     /**
      * 扩展字段
      */
     private String ext;
+
+    /**
+     * 是否在线
+     */
+    private boolean isOnline;
 }
