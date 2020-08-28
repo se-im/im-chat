@@ -240,8 +240,9 @@
       ext = #{ext,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  <!-- Generate time: 2020-08-21 15:02:21 ### -->
+
+
+    <!-- Generate time: 2020-08-21 15:02:21 ### -->
 
 
   <!-- Your codes goes here!!! -->
@@ -259,5 +260,11 @@
     where owner_id = #{userId,jdbcType=BIGINT} and relation_entity_id = #{entityId,jdbcType=BIGINT} and cvs_type = #{cvsType,jdbcType=INTEGER}
   </select>
 
+  <update id="updateRedundantByuserId">
+    update im_session_view
+    set cvs_name = #{cvsName,jdbcType=VARCHAR},
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR}
+    where relation_entity_id = #{relationEntityId,jdbcType=BIGINT},
 
+  </update>
 </mapper>
