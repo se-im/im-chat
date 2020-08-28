@@ -46,7 +46,11 @@ public class SessionViewServiceImpl implements ISessionViewService {
         List<SessionView> sessionViews = sessionViewMapper.selectByUserId(userId);
         return sessionViews;
     }
-
+    @Override
+    public SessionView querySessionView(Long userId,Long relationEntityId,String cvsType) {
+        SessionView sessionView = sessionViewMapper.selectByUserIdEntityIdCvsType(userId, relationEntityId, CvsTypeEnum.nameOf(cvsType).getCode());
+        return sessionView;
+    }
     @Override
     public void deleteSessionView(Long cvsId) throws BusinessException {
         SessionView sessionView = sessionViewMapper.selectByPrimaryKey(cvsId);

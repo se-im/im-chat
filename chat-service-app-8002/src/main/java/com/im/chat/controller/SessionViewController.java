@@ -63,6 +63,19 @@ public class SessionViewController
         return ServerResponse.success(sessionViewVoList);
     }
 
+//    @ApiOperation(value = "查找当前用户与某个好友的会话视图")
+//    @GetMapping("/querySessionView")
+//    //cvsType 时间Long
+//    public ServerResponse<SessionViewVo> querySessionView(@CurrentUser @ApiIgnore User user,Long friendId,String cvsType)
+//    {
+//        SessionView sessionView = iSessionViewService.querySessionView(user.getId(), friendId, cvsType);
+//        if(sessionView == null){
+//            createSessionView(user, cvsType, friendId);
+//            sessionView = iSessionViewService.querySessionView(user.getId(), friendId, cvsType);
+//        }
+//        return ServerResponse.success(sessionViewVo);
+//    }
+
     //TODO
     @ApiOperation(value = "删除会话视图")
     @GetMapping("/delete")
@@ -82,7 +95,6 @@ public class SessionViewController
         sessionViewVo.setLastMessageTime(sessionView.getLastMessageTime().getTime());
         boolean rd= Math.random() > 0.5;
         sessionViewVo.setOnline(rd);
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime lastMessageTime = sessionView.getLastMessageTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();

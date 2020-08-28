@@ -25,4 +25,5 @@ public interface SessionViewMapper {
 
     int updateRedundantByuserId(@Param("relationEntityId") Long relationEntityId,@Param("cvsName") String cvsName,@Param("avatarUal") String avatarUrl);
 
+
 }

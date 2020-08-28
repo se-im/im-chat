@@ -14,4 +14,6 @@ public interface ISessionViewService {
     public List<SessionView> queryMySessionViewList(Long userId);
 
     public void deleteSessionView(Long cvsId) throws BusinessException;
+
+    public SessionView querySessionView(Long userId,Long relationEntityId,String cvsType);
 }
