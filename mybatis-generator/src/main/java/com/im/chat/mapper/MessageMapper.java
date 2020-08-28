@@ -2,8 +2,7 @@ package com.im.chat.mapper;
 
 import com.im.chat.entity.po.Message;
 
-public interface MessageMapper
-{
+public interface MessageMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(Message record);

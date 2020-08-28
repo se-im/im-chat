@@ -1,15 +1,13 @@
 package com.im.chat.entity.po;
 
-import lombok.Data;
-
 import java.util.Date;
+import lombok.Data;
 
 /**
  * Table: im_message
  */
 @Data
-public class Message
-{
+public class Message {
     /**
      * Column:    id
      * Nullable:  false
