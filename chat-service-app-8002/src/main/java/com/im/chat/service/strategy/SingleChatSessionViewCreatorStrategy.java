@@ -34,6 +34,7 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
         }
         UserVo user = iUserService.getUserById(entityId);
         SessionView sessionView = new SessionView();
+
         sessionView.setCvsName(user.getUsername());
         sessionView.setAvatarUrl(user.getAvatarUrl());
 

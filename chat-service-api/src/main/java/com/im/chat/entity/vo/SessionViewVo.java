@@ -19,7 +19,7 @@ public class SessionViewVo
 
     @ApiModelProperty("会话关联对象的id，群聊为群id，单聊为用户id")
     private Long relationEntityId;
-    
+
     @ApiModelProperty("会话头像url地址")
     private String avatarUrl;
 
@@ -48,5 +48,5 @@ public class SessionViewVo
     private String ext;
 
     @ApiModelProperty("是否在线")
-    private boolean isOnline;
+    private boolean online;
 }
