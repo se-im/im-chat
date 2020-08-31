@@ -2,19 +2,29 @@ package com.im.chat.controller;
 
 
 import com.im.chat.annotation.CurrentUser;
+import com.im.chat.entity.domin.InboxDo;
 import com.im.chat.entity.po.Inbox;
+import com.im.chat.entity.vo.InboxVo;
+import com.im.chat.enums.MsgReadedEnum;
 import com.im.chat.service.IInboxService;
 import com.im.user.entity.po.User;
 import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Api(tags = "收件箱相关的api")
 @RestController
@@ -25,14 +35,37 @@ public class InboxController {
     @Autowired
     private IInboxService iInboxService;
 
-    @ApiOperation(value = "查询当前用户某个会话视图的收件箱")
-//    @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
 
+    //TODO 查询当前用户的收件箱 和 message联合表
+
+    @ApiOperation(value = "查询当前用户的收件箱")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
+    })
     @PostMapping("/query")
-    public ServerResponse<Inbox> queryInboxByUserIdCvsId(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
-        Inbox inbox = iInboxService.queryInboxByUserIdCvsId(user.getId(), cvsId);
-        return ServerResponse.success(inbox);
+    public ServerResponse<List<InboxVo>> queryInboxByUserIdCvsIdSyncId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
+        List<InboxDo> inboxDos = iInboxService.queryInboxByUserIdCvsId(user.getId(), cvsId);
+        if(inboxDos == null){
+                return ServerResponse.success(null);
+        }
+            List<InboxVo> inboxVos = new ArrayList<InboxVo>();
+        for(InboxDo inboxDo : inboxDos){
+            InboxVo inboxVo = new InboxVo();
+            BeanUtils.copyProperties(inboxDo,inboxVo);
+            inboxVo.setReaded(MsgReadedEnum.codeOf(inboxDo.getReaded()).getValue());
+            if(inboxDo.getSenderId().equals(user.getId())){
+                inboxVo.setSelfSend(true);
+            }else{
+                inboxVo.setSelfSend(false);
+            }
+            inboxVo.setCreateTime(inboxDo.getCreateTime().getTime());
+            inboxVos.add(inboxVo);
+        }
+
+        return ServerResponse.success(inboxVos);
     }
+    //TODO 分页查询接口 pageHelper
+    //TODO 查询当前用户某个会话视图的收件箱 （带SyncId）
 
 
 }

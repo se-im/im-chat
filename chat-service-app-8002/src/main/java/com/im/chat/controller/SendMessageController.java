@@ -42,9 +42,16 @@ public class SendMessageController
     @ApiOperation("发送消息")
     public ServerResponse<String> sendMessage(@Valid ClientMessageSendedVo clientMessageSendedVo, @CurrentUser @ApiIgnore User user) throws BusinessException
     {
+
         SessionView sessionView = sessionViewService.selectById(clientMessageSendedVo.getCvsId());
         if(sessionView == null){
             throw new BusinessException("不存的会话视图");
+        }
+
+        //TODO 判断该会话视图是否属于当前用户
+        Long cvsOwnerId = sessionView.getOwnerId();
+        if(!cvsOwnerId.equals(user.getId())){
+            throw new BusinessException("当前用户没有该会话视图！会话Id错误！");
         }
 
         if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){

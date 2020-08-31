@@ -58,6 +58,8 @@ public class SingleChatCommandExecutor implements CommandExecutor<SingleChatComm
         //找到对方会话视图
         SessionView receiverSessionView = sessionViewService.
                 getSessionViewForEntity(message.getReceiverEntityId(), message.getSenderId(), CvsTypeEnum.U);
+        //TODO 不存在会话视图则创建（单向）
+
         //sync对方会话视图
         syncService.SyncMessage(message, receiverSessionView);
     }
