@@ -22,4 +22,7 @@ public interface ISessionViewService {
     public SessionView getSessionViewForEntity(Long userId, Long relationEntityId, CvsTypeEnum cvsTypeEnum);
 
     public SessionView selectById(Long cvsId);
+
+
+    public void insertSelective(SessionView sessionView);
 }

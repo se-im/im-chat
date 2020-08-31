@@ -76,6 +76,8 @@ public class SendMessageController
                     .build();
             GroupChatCommand command = new GroupChatCommand();
             command.setMessage(message);
+            command.setSendSessionView(sessionView);
+            command.setSenderUser(user);
             commandBus.send(command);
         }
 
