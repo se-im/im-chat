@@ -78,6 +78,9 @@
       )
   </insert>
   <insert id="insertSelective">
+    <selectKey keyProperty="id" resultType="long">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into im_session_view
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

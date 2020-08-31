@@ -44,7 +44,7 @@ public class SingleChatCommandExecutor implements CommandExecutor<SingleChatComm
         dispatcherSenderMessage(cmd);
     }
 
-    public void dispatcherSenderMessage(SingleChatCommand cmd)
+    private void dispatcherSenderMessage(SingleChatCommand cmd)
     {
         Message message = cmd.getMessage();
         SessionView sendSessionView = cmd.getSendSessionView();

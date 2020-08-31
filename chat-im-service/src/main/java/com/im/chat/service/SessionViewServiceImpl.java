@@ -62,6 +62,12 @@ public class SessionViewServiceImpl implements ISessionViewService {
     }
 
     @Override
+    public void insertSelective(SessionView sessionView)
+    {
+        sessionViewMapper.insertSelective(sessionView);
+    }
+
+    @Override
     public SessionView selectById(Long cvsId)
     {
         return sessionViewMapper.selectByPrimaryKey(cvsId);
