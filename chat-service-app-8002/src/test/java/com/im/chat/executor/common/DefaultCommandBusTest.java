@@ -1,6 +1,7 @@
 package com.im.chat.executor.common;
 
-import com.im.chat.executor.command.SingleChatCommand;
+import com.im.dispatcher.command.SingleChatCommand;
+import com.im.dispatcher.common.CommandBus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ public class DefaultCommandBusTest
     public void testSendCommand()
     {
         SingleChatCommand chatCommand = new SingleChatCommand();
-        chatCommand.setContent("ddddd");
 
         commandBus.send(chatCommand);
     }

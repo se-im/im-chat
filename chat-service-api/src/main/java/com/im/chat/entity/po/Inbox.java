@@ -1,5 +1,6 @@
 package com.im.chat.entity.po;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
  * Table: im_inbox
  */
 @Data
+@Builder
 public class Inbox
 {
     /**
@@ -41,28 +43,12 @@ public class Inbox
     private String msg;
 
     /**
-     * 消息类型；0-文本消息；1-图片消息
-     *
-     * Column:    msg_type
-     * Nullable:  false
-     */
-    private Byte msgType;
-
-    /**
      * 对应的会话id
      *
      * Column:    cvs_id
      * Nullable:  false
      */
     private Long cvsId;
-
-    /**
-     * 对应的会话名
-     *
-     * Column:    cvs_name
-     * Nullable:  false
-     */
-    private String cvsName;
 
     /**
      * 发送人id
@@ -97,12 +83,12 @@ public class Inbox
     private Byte readed;
 
     /**
-     * 消息是否推到了端侧;0-false;1-true
+     * 同步id，当个会话递增
      *
-     * Column:    sended
-     * Nullable:  true
+     * Column:    sync_id
+     * Nullable:  false
      */
-    private Byte sended;
+    private Long syncId;
 
     /**
      * 消息创建时间，跟消息体时间保持一致

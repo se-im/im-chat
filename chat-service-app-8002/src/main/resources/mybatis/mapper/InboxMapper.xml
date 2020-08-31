@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.im.chat.mapper.InboxMapper">
+<mapper namespace="com.im.com.im.chat.mapper.InboxMapper">
   <resultMap id="BaseResultMap" type="com.im.chat.entity.po.Inbox">
     <id column="id" jdbcType="BIGINT" property="id" />
     
@@ -13,14 +13,8 @@
     <!-- 消息体内容 -->
     <result column="msg" jdbcType="VARCHAR" property="msg" />
     
-    <!-- 消息类型；0-文本消息；1-图片消息 -->
-    <result column="msg_type" jdbcType="TINYINT" property="msgType" />
-    
     <!-- 对应的会话id -->
     <result column="cvs_id" jdbcType="BIGINT" property="cvsId" />
-    
-    <!-- 对应的会话名 -->
-    <result column="cvs_name" jdbcType="VARCHAR" property="cvsName" />
     
     <!-- 发送人id -->
     <result column="sender_id" jdbcType="BIGINT" property="senderId" />
@@ -34,8 +28,8 @@
     <!-- 消息是否已读：0-没有；1-已读 -->
     <result column="readed" jdbcType="TINYINT" property="readed" />
     
-    <!-- 消息是否推到了端侧;0-false;1-true -->
-    <result column="sended" jdbcType="TINYINT" property="sended" />
+    <!-- 同步id，当个会话递增 -->
+    <result column="sync_id" jdbcType="BIGINT" property="syncId" />
     
     <!-- 消息创建时间，跟消息体时间保持一致 -->
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -44,8 +38,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, owner_id, message_id, msg, msg_type, cvs_id, cvs_name, sender_id, sender_name, 
-    sender_avatar_url, readed, sended, create_time, update_time
+    id, owner_id, message_id, msg, cvs_id, sender_id, sender_name, sender_avatar_url, 
+    readed, sync_id, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -53,22 +47,21 @@
     from im_inbox
     where id = #{id,jdbcType=BIGINT}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from im_inbox
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert">
     insert into im_inbox (id, owner_id, message_id, 
-      msg, msg_type, cvs_id, 
-      cvs_name, sender_id, sender_name, 
-      sender_avatar_url, readed, sended, 
-      create_time, update_time)
+      msg, cvs_id, sender_id, 
+      sender_name, sender_avatar_url, readed, 
+      sync_id, create_time, update_time
+      )
     values (#{id,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT}, #{messageId,jdbcType=BIGINT}, 
-      #{msg,jdbcType=VARCHAR}, #{msgType,jdbcType=TINYINT}, #{cvsId,jdbcType=BIGINT}, 
-      #{cvsName,jdbcType=VARCHAR}, #{senderId,jdbcType=BIGINT}, #{senderName,jdbcType=VARCHAR}, 
-      #{senderAvatarUrl,jdbcType=VARCHAR}, #{readed,jdbcType=TINYINT}, #{sended,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{msg,jdbcType=VARCHAR}, #{cvsId,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, 
+      #{senderName,jdbcType=VARCHAR}, #{senderAvatarUrl,jdbcType=VARCHAR}, #{readed,jdbcType=TINYINT}, 
+      #{syncId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective">
     insert into im_inbox
@@ -85,14 +78,8 @@
       <if test="msg != null">
         msg,
       </if>
-      <if test="msgType != null">
-        msg_type,
-      </if>
       <if test="cvsId != null">
         cvs_id,
-      </if>
-      <if test="cvsName != null">
-        cvs_name,
       </if>
       <if test="senderId != null">
         sender_id,
@@ -106,8 +93,8 @@
       <if test="readed != null">
         readed,
       </if>
-      <if test="sended != null">
-        sended,
+      <if test="syncId != null">
+        sync_id,
       </if>
       <if test="createTime != null">
         create_time,
@@ -129,14 +116,8 @@
       <if test="msg != null">
         #{msg,jdbcType=VARCHAR},
       </if>
-      <if test="msgType != null">
-        #{msgType,jdbcType=TINYINT},
-      </if>
       <if test="cvsId != null">
         #{cvsId,jdbcType=BIGINT},
-      </if>
-      <if test="cvsName != null">
-        #{cvsName,jdbcType=VARCHAR},
       </if>
       <if test="senderId != null">
         #{senderId,jdbcType=BIGINT},
@@ -150,8 +131,8 @@
       <if test="readed != null">
         #{readed,jdbcType=TINYINT},
       </if>
-      <if test="sended != null">
-        #{sended,jdbcType=TINYINT},
+      <if test="syncId != null">
+        #{syncId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -173,14 +154,8 @@
       <if test="msg != null">
         msg = #{msg,jdbcType=VARCHAR},
       </if>
-      <if test="msgType != null">
-        msg_type = #{msgType,jdbcType=TINYINT},
-      </if>
       <if test="cvsId != null">
         cvs_id = #{cvsId,jdbcType=BIGINT},
-      </if>
-      <if test="cvsName != null">
-        cvs_name = #{cvsName,jdbcType=VARCHAR},
       </if>
       <if test="senderId != null">
         sender_id = #{senderId,jdbcType=BIGINT},
@@ -194,8 +169,8 @@
       <if test="readed != null">
         readed = #{readed,jdbcType=TINYINT},
       </if>
-      <if test="sended != null">
-        sended = #{sended,jdbcType=TINYINT},
+      <if test="syncId != null">
+        sync_id = #{syncId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -211,26 +186,31 @@
     set owner_id = #{ownerId,jdbcType=BIGINT},
       message_id = #{messageId,jdbcType=BIGINT},
       msg = #{msg,jdbcType=VARCHAR},
-      msg_type = #{msgType,jdbcType=TINYINT},
       cvs_id = #{cvsId,jdbcType=BIGINT},
-      cvs_name = #{cvsName,jdbcType=VARCHAR},
       sender_id = #{senderId,jdbcType=BIGINT},
       sender_name = #{senderName,jdbcType=VARCHAR},
       sender_avatar_url = #{senderAvatarUrl,jdbcType=VARCHAR},
       readed = #{readed,jdbcType=TINYINT},
-      sended = #{sended,jdbcType=TINYINT},
+      sync_id = #{syncId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
-  <!-- Generate time: 2020-08-24 15:39:47 ### -->
+  <!-- Generate time: 2020-08-30 22:01:22 ### -->
 
 
   <!-- Your codes goes here!!! -->
   <select id="selectByUserIdCvsId" resultType="com.im.chat.entity.po.Inbox">
     select
     <include refid="Base_Column_List" />
+    from im_inbox
+    where owner_id = #{userId,jdbcType=BIGINT} and cvs_id = #{cvsId,jdbcType=BIGINT}
+  </select>
+
+  <select id="getLargestSyncId" resultType="java.lang.Long">
+    select
+    max(sync_id)
     from im_inbox
     where owner_id = #{userId,jdbcType=BIGINT} and cvs_id = #{cvsId,jdbcType=BIGINT}
   </select>

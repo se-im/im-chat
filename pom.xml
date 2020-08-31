@@ -12,6 +12,9 @@
         <module>chat-service-api</module>
         <module>chat-service-app-8002</module>
         <module>mybatis-generator</module>
+        <module>chat-im-sync</module>
+        <module>chat-im-dispatcher</module>
+        <module>chat-im-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

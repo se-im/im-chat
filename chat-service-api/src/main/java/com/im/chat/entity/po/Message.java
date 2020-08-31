@@ -1,5 +1,6 @@
 package com.im.chat.entity.po;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
  * Table: im_message
  */
 @Data
+@Builder
 public class Message
 {
     /**
@@ -51,10 +53,10 @@ public class Message
     /**
      * 消息类型：0-文本消息；1-图片消息
      *
-     * Column:    msg_type
+     * Column:    msg_content_type
      * Nullable:  false
      */
-    private Byte msgType;
+    private Byte msgContentType;
 
     /**
      * 接受者实体id

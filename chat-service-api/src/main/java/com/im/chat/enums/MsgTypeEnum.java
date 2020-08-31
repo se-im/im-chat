@@ -1,6 +1,7 @@
 package com.im.chat.enums;
 
-public enum CvsTypeEnum {
+public enum MsgTypeEnum
+{
     /**
      * U 单聊
      * G 群聊
@@ -8,12 +9,12 @@ public enum CvsTypeEnum {
     U(Byte.valueOf("0"),"U"),
     G(Byte.valueOf("1"),"G");
 
-    CvsTypeEnum(Byte code)
+    MsgTypeEnum(Byte code)
     {
         this.code = code;
     }
 
-    CvsTypeEnum(Byte code,String name)
+    MsgTypeEnum(Byte code, String name)
     {
         this.code = code;
         this.name = name;
@@ -29,7 +30,7 @@ public enum CvsTypeEnum {
     public String getName(){
         return this.name;
     }
-    public static CvsTypeEnum codeOf(Byte code) {
+    public static MsgTypeEnum codeOf(Byte code) {
         switch (code)
         {
             case 0: return U;
@@ -37,7 +38,7 @@ public enum CvsTypeEnum {
             default: return null;
         }
     }
-    public static CvsTypeEnum nameOf(String name){
+    public static MsgTypeEnum nameOf(String name){
         if(name == null){
             return null;
         }

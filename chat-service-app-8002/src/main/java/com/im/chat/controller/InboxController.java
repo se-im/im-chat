@@ -3,25 +3,18 @@ package com.im.chat.controller;
 
 import com.im.chat.annotation.CurrentUser;
 import com.im.chat.entity.po.Inbox;
-import com.im.chat.entity.vo.SessionViewVo;
 import com.im.chat.service.IInboxService;
-import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
 import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.List;
 
 @Api(tags = "收件箱相关的api")
 @RestController

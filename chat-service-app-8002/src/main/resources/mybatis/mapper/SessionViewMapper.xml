@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.im.chat.mapper.SessionViewMapper">
+<mapper namespace="com.im.com.im.chat.mapper.SessionViewMapper">
   <resultMap id="BaseResultMap" type="com.im.chat.entity.po.SessionView">
     <id column="id" jdbcType="BIGINT" property="id" />
     
@@ -11,7 +11,7 @@
     <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
     
     <!-- 会话类型；0-单聊；1-群聊 -->
-    <result column="cvs_type" jdbcType="INTEGER" property="cvsType" />
+    <result column="cvs_type" jdbcType="TINYINT" property="cvsType" />
     
     <!-- 会话关联对象的id，群聊为群id，单聊为用户id -->
     <result column="relation_entity_id" jdbcType="BIGINT" property="relationEntityId" />
@@ -184,7 +184,7 @@
         owner_id = #{ownerId,jdbcType=BIGINT},
       </if>
       <if test="cvsType != null">
-        cvs_type = #{cvsType,jdbcType=INTEGER},
+        cvs_type = #{cvsType,jdbcType=TINYINT},
       </if>
       <if test="relationEntityId != null">
         relation_entity_id = #{relationEntityId,jdbcType=BIGINT},
@@ -226,7 +226,7 @@
     update im_session_view
     set cvs_name = #{cvsName,jdbcType=VARCHAR},
       owner_id = #{ownerId,jdbcType=BIGINT},
-      cvs_type = #{cvsType,jdbcType=INTEGER},
+      cvs_type = #{cvsType,jdbcType=TINYINT},
       relation_entity_id = #{relationEntityId,jdbcType=BIGINT},
       avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       last_message = #{lastMessage,jdbcType=VARCHAR},
@@ -257,14 +257,19 @@
     select
     <include refid="Base_Column_List" />
     from im_session_view
-    where owner_id = #{userId,jdbcType=BIGINT} and relation_entity_id = #{entityId,jdbcType=BIGINT} and cvs_type = #{cvsType,jdbcType=INTEGER}
+    where owner_id = #{userId,jdbcType=BIGINT} and relation_entity_id = #{entityId,jdbcType=BIGINT} and cvs_type = #{cvsType,jdbcType=TINYINT}
   </select>
 
   <update id="updateRedundantByuserId">
     update im_session_view
     set cvs_name = #{cvsName,jdbcType=VARCHAR},
         avatar_url = #{avatarUrl,jdbcType=VARCHAR}
-    where relation_entity_id = #{relationEntityId,jdbcType=BIGINT},
+    where relation_entity_id = #{relationEntityId,jdbcType=BIGINT}
 
   </update>
+    <update id="updateUnreadNum">
+      update im_session_view
+      set unread_message_num = unread_message_num + #{unreadNumAdded}
+      where id = #{cvsId}
+    </update>
 </mapper>

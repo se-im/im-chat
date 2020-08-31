@@ -15,5 +15,10 @@ public interface ISessionViewService {
 
     public void deleteSessionView(Long cvsId) throws BusinessException;
 
-    public SessionView querySessionView(Long userId,Long relationEntityId,String cvsType);
+    /**
+     * 查询当前用户和指定对象的会话
+     */
+    public SessionView getSessionViewForEntity(Long userId, Long relationEntityId, CvsTypeEnum cvsTypeEnum);
+
+    public SessionView selectById(Long cvsId);
 }

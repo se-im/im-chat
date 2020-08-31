@@ -37,7 +37,7 @@ public class SessionView {
      * Column:    cvs_type
      * Nullable:  false
      */
-    private Integer cvsType;
+    private Byte cvsType;
 
     /**
      * 会话关联对象的id，群聊为群id，单聊为用户id
