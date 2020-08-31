@@ -11,6 +11,7 @@ import com.im.dispatcher.command.SingleChatCommand;
 import com.im.dispatcher.common.CommandBus;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
+import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Api(tags = "消息发送的api")
 @RestController
@@ -38,7 +40,7 @@ public class SendMessageController
 
     @PostMapping("/send")
     @ApiOperation("发送消息")
-    public void sendMessage(@Valid ClientMessageSendedVo clientMessageSendedVo, @CurrentUser @ApiIgnore User user) throws BusinessException
+    public ServerResponse<String> sendMessage(@Valid ClientMessageSendedVo clientMessageSendedVo, @CurrentUser @ApiIgnore User user) throws BusinessException
     {
         SessionView sessionView = sessionViewService.selectById(clientMessageSendedVo.getCvsId());
         if(sessionView == null){
@@ -54,6 +56,7 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.U.getCode())
+                    .createTime(new Date())
                     .build();
             SingleChatCommand command = new SingleChatCommand();
             command.setMessage(message);
@@ -69,12 +72,13 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.G.getCode())
+                    .createTime(new Date())
                     .build();
             GroupChatCommand command = new GroupChatCommand();
             command.setMessage(message);
             commandBus.send(command);
         }
 
-
+        return ServerResponse.success();
     }
 }

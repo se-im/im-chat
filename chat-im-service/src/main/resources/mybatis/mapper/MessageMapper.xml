@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.im.com.im.chat.mapper.MessageMapper">
+<mapper namespace="com.im.chat.mapper.MessageMapper">
   <resultMap id="BaseResultMap" type="com.im.chat.entity.po.Message">
     <id column="id" jdbcType="BIGINT" property="id" />
     
@@ -46,6 +46,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert">
+    <selectKey keyProperty="id" resultType="long">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into im_message (id, sender_id, sender_name, 
       cvs_id, msg, msg_content_type, 
       receiver_entity_id, receiver_entity_type, create_time, 
@@ -56,6 +59,10 @@
       #{ext,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective">
+
+    <selectKey keyProperty="id" resultType="long">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into im_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -28,7 +28,8 @@ public class SessionViewCreatorContext implements ApplicationListener<ContextRef
         for(Map.Entry<String, SessionViewCreatorStrategy> entry: beansOfType.entrySet())
         {
             SessionViewCreatorStrategy strategy = entry.getValue();
-            CvsTypeEnum cvsTypeEnum = strategy.getClass().getAnnotation(SessionViewStrategyAnnotation.class).cvsType();
+            SessionViewStrategyAnnotation annotation = strategy.getClass().getAnnotation(SessionViewStrategyAnnotation.class);
+            CvsTypeEnum cvsTypeEnum = annotation.cvsType();
             sessionViewCreatorStrategyMap.put(cvsTypeEnum, strategy);
 
 

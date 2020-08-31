@@ -79,10 +79,10 @@
 
 <!--        <table tableName="im_session_view" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="SessionView"-->
 <!--               enableUpdateByExample="false" enableSelectByExample="false" />-->
-        <table tableName="im_message" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Message"
-               enableUpdateByExample="false" enableSelectByExample="false" />
-<!--        <table tableName="im_inbox" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Inbox"-->
+<!--        <table tableName="im_message" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Message"-->
 <!--               enableUpdateByExample="false" enableSelectByExample="false" />-->
+        <table tableName="im_inbox" enableCountByExample="false" enableDeleteByExample="false" domainObjectName="Inbox"
+               enableUpdateByExample="false" enableSelectByExample="false" />
 <!--        <table tableName="task" enableCountByExample="false" enableDeleteByExample="false"-->
 <!--               enableUpdateByExample="false" enableSelectByExample="false" />-->
 <!--        <table tableName="task_user" enableCountByExample="false" enableDeleteByExample="false"-->

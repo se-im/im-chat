@@ -6,6 +6,7 @@ import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.mapper.SessionViewMapper;
 import com.im.chat.service.strategy.SessionViewCreatorContext;
 import com.im.chat.service.strategy.SessionViewCreatorStrategy;
+import com.im.user.entity.po.User;
 import com.im.user.service.IUserService;
 import com.mr.response.error.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +33,10 @@ public class SessionViewServiceImpl implements ISessionViewService {
     private SessionViewCreatorContext sessionViewCreatorContext;
 
     @Override
-    public void createSessionView(Long userId, CvsTypeEnum cvsType, Long entityId) throws BusinessException {
+    public void createSessionView(User curUser, CvsTypeEnum cvsType, Long entityId) throws BusinessException {
 
         SessionViewCreatorStrategy strategy = sessionViewCreatorContext.getStrategy(cvsType);
-        strategy.createSessionView(userId, entityId);
+        strategy.createSessionView(curUser, entityId);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class SessionViewServiceImpl implements ISessionViewService {
     }
     @Override
     public SessionView getSessionViewForEntity(Long userId, Long relationEntityId, CvsTypeEnum cvsTypeEnum) {
-        SessionView sessionView = sessionViewMapper.selectByUserIdEntityIdCvsType(userId, relationEntityId, cvsTypeEnum.getCode());
+        SessionView sessionView = sessionViewMapper.getSessionViewForEntity(userId, relationEntityId, cvsTypeEnum.getCode());
         return sessionView;
     }
     @Override

@@ -43,10 +43,11 @@ public class MyWebMvcConfigure implements WebMvcConfigurer
     public void addInterceptors(InterceptorRegistry registry) {
 
             registry.addInterceptor(contextInformationInterceptor)
-                    .addPathPatterns("/com/im/chat/**");
+                    .addPathPatterns("/chat/**");
             registry.addInterceptor(loginInterceptor)
-                    .addPathPatterns("/com/im/chat/**");
-            registry.addInterceptor(corsInterceptor)
+                    .addPathPatterns("/chat/**")
+                    .excludePathPatterns("/user/unlogin");
+        registry.addInterceptor(corsInterceptor)
                     .addPathPatterns("/**");
     }
 

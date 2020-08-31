@@ -5,6 +5,7 @@ import com.im.chat.entity.po.SessionView;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.mapper.SessionViewMapper;
 import com.im.user.entity.po.GroupPo;
+import com.im.user.entity.po.User;
 import com.im.user.service.IGroupService;
 import com.mr.response.error.BusinessException;
 import org.apache.dubbo.config.annotation.Reference;
@@ -24,10 +25,11 @@ public class GroupChatSessionViewCreatorStrategy implements SessionViewCreatorSt
     private SessionViewMapper sessionViewMapper;
 
     @Override
-    public void createSessionView(Long userId, Long entityId) throws BusinessException
+    public void createSessionView(User curUser, Long entityId) throws BusinessException
     {
 
-        SessionView sessionView1 = sessionViewMapper.selectByUserIdEntityIdCvsType(userId, entityId, CvsTypeEnum.G.getCode());
+        Long userId = curUser.getId();
+        SessionView sessionView1 = sessionViewMapper.getSessionViewForEntity(userId, entityId, CvsTypeEnum.G.getCode());
         if(sessionView1 != null){
             throw new BusinessException("会话视图已存在！");
         }

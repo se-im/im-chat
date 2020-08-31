@@ -17,21 +17,19 @@ public class SessionViewManager
     @Resource
     private SessionViewMapper sessionViewMapper;
 
-    public void updateSessionView(Message message, User senderUser, Long ownerId, boolean online) throws BusinessException
+    public void updateSessionView(Message message, SessionView sessionView, boolean online)
     {
-        SessionView sessionView = sessionViewMapper.selectByPrimaryKey(ownerId);
-        if(sessionView == null){
-            throw new BusinessException("不存在的会话视图");
-        }
+
         sessionView.setLastMessage(message.getMsg());
-        sessionView.setLastMessageTime(message.getCreateTime());
-        sessionView.setSenderName(senderUser.getUsername());
+        sessionView.setSenderName(message.getSenderName());
+        sessionView.setCreateTime(message.getCreateTime());
         if(!online)
         {
-            sessionView.setUnreadMessageNum(sessionView.getUnreadMessageNum() + 1);
+            sessionViewMapper.updateSessionViewWithUnreadMessageNum(sessionView);
+        }else
+        {
+            sessionViewMapper.updateByPrimaryKeySelective(sessionView);
         }
-
-        sessionViewMapper.updateByPrimaryKeySelective(sessionView);
 
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.im.com.im.chat.mapper.SessionViewMapper">
+<mapper namespace="com.im.chat.mapper.SessionViewMapper">
   <resultMap id="BaseResultMap" type="com.im.chat.entity.po.SessionView">
     <id column="id" jdbcType="BIGINT" property="id" />
     
@@ -253,7 +253,7 @@
     where owner_id = #{userId,jdbcType=BIGINT}
 
   </select>
-  <select id="selectByUserIdEntityIdCvsType" resultType="com.im.chat.entity.po.SessionView">
+  <select id="getSessionViewForEntity" resultType="com.im.chat.entity.po.SessionView">
     select
     <include refid="Base_Column_List" />
     from im_session_view
@@ -272,4 +272,19 @@
       set unread_message_num = unread_message_num + #{unreadNumAdded}
       where id = #{cvsId}
     </update>
+
+
+  <update id="updateSessionViewWithUnreadMessageNum">
+    update im_session_view
+    set
+
+        last_message = #{lastMessage,jdbcType=VARCHAR},
+        sender_name = #{senderName,jdbcType=VARCHAR},
+        unread_message_num = unread_message_num + 1,
+        last_message_time = #{lastMessageTime,jdbcType=TIMESTAMP}
+
+     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
 </mapper>

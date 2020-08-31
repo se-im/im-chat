@@ -1,5 +1,7 @@
 package com.im.chat.service;
 
+import com.im.sync.service.SyncIdService;
+import com.im.sync.service.SyncService;
 import com.im.user.service.IUserService;
 import com.mr.response.error.BusinessException;
 import org.apache.dubbo.config.annotation.Reference;
@@ -23,7 +25,7 @@ public class SessionViewServiceImplTest {
     }
 
     @Autowired
-    private SyncService syncService;
+    private SyncIdService syncService;
 
     @org.junit.jupiter.api.Test
     public void test001()

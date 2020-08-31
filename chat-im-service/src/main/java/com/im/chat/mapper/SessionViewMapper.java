@@ -21,9 +21,11 @@ public interface SessionViewMapper {
 
     List<SessionView> selectByUserId(Long userId);
 
-    SessionView selectByUserIdEntityIdCvsType(@Param("userId") Long userId,@Param("entityId") Long entityId, @Param("cvsType") Byte cvsType);
+    SessionView getSessionViewForEntity(@Param("userId") Long userId, @Param("entityId") Long entityId, @Param("cvsType") Byte cvsType);
 
     int updateRedundantByuserId(@Param("relationEntityId") Long relationEntityId,@Param("cvsName") String cvsName,@Param("avatarUal") String avatarUrl);
 
     int updateUnreadNum(@Param("cvsId") Long cvsId, @Param("unreadNumAdded") Integer unreadNumAdded);
+
+    int updateSessionViewWithUnreadMessageNum(SessionView record);
 }

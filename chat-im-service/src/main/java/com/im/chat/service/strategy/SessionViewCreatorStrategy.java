@@ -1,11 +1,12 @@
 package com.im.chat.service.strategy;
 
 
+import com.im.user.entity.po.User;
 import com.mr.response.error.BusinessException;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface SessionViewCreatorStrategy
 {
-    void createSessionView(Long userId, Long entityId) throws BusinessException;
+    void createSessionView(User curUser, Long entityId) throws BusinessException;
 }

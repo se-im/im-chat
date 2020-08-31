@@ -45,7 +45,7 @@ public class SessionViewController
     @PostMapping("/create")
     public ServerResponse<String> createSessionView(@CurrentUser @ApiIgnore User user, String cvsType, Long entityId) throws BusinessException {
 
-        iSessionViewService.createSessionView(user.getId(),CvsTypeEnum.nameOf(cvsType),entityId);
+        iSessionViewService.createSessionView(user,CvsTypeEnum.nameOf(cvsType),entityId);
         return ServerResponse.success();
     }
 
