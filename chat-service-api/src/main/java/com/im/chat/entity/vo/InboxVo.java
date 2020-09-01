@@ -17,8 +17,10 @@ public class InboxVo
     private Long messageId;
 
     @ApiModelProperty("消息内容")
-
     private String msg;
+
+
+
 
     @ApiModelProperty("会话Id")
     //
