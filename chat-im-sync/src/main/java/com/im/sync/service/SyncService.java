@@ -4,6 +4,7 @@ package com.im.sync.service;
 import com.im.chat.entity.po.Inbox;
 import com.im.chat.entity.po.Message;
 import com.im.chat.entity.po.SessionView;
+import com.im.chat.entity.vo.InboxVo;
 import com.im.chat.enums.MsgReadedEnum;
 import com.im.chat.mapper.InboxMapper;
 import com.im.chat.mapper.MessageMapper;
@@ -42,6 +43,9 @@ public class SyncService
         updateCvsInBoxTransactional(message, sessionView, online);
     }
 
+    private void pushMessageToOnlineUser(Message message){
+//        InboxVo
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void updateCvsInBoxTransactional(Message message, SessionView sessionView, boolean online)

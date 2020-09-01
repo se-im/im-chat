@@ -3,6 +3,8 @@ server:
 logging:
   level.root: info
 
+logging.level.org.apache.dubbo.registry.nacos: error
+
 
 spring:
   datasource:
@@ -33,7 +35,7 @@ token:
   expiration: 30
 
 netty:
-  port: 6666
+  port: 8888
 
 dubbo:
   registry:

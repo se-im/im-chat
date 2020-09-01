@@ -5,4 +5,6 @@ public interface ConnectorManager
 {
     public Boolean isOnline(Long userId);
 
+
+
 }

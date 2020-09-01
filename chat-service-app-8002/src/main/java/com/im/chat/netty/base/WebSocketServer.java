@@ -1,13 +1,13 @@
-package com.im.sync.netty;
+package com.im.chat.netty.base;
 
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,8 @@ import java.net.InetSocketAddress;
 
 @Component
 @Slf4j
-public class ChatServer{
+public class WebSocketServer
+{
 
 	
 	@Value("${netty.port}")
@@ -27,8 +28,8 @@ public class ChatServer{
 
 	
 	
-	public void start() throws Exception {
-		log.info("服务端已启动，正在监听用户的请求......");
+	public void start()  {
+		log.info("netty已在端口{}启动，正在监听用户的请求......", port);
 
 		try {
 			ServerBootstrap b = new ServerBootstrap();
@@ -36,11 +37,12 @@ public class ChatServer{
 			.option(ChannelOption.SO_BACKLOG, 1024)
 			.childHandler(new WsChannelInitializer());
 
-			b.bind(new InetSocketAddress(port)).sync();
+			ChannelFuture channelFuture = b.bind(new InetSocketAddress(port)).sync();
+			channelFuture.channel().closeFuture().sync();
 		} catch (Exception e) {
 			log.error("", e);
-			throw e;
 		}finally {
+			log.info("关闭websocket");
 			// 释放资源
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();

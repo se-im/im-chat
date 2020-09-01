@@ -2,8 +2,7 @@ package com.im.chat.controller;
 
 
 import com.im.chat.annotation.CurrentUser;
-import com.im.chat.entity.domin.InboxDo;
-import com.im.chat.entity.po.Inbox;
+import com.im.chat.entity.domain.InboxDo;
 import com.im.chat.entity.vo.InboxVo;
 import com.im.chat.enums.MsgReadedEnum;
 import com.im.chat.service.IInboxService;
@@ -14,7 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
