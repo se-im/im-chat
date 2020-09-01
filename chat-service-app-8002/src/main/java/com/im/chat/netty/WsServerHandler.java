@@ -11,41 +11,29 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.common.utils.ConcurrentHashSet;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 
-@Component("connectorManager")
+
 @Slf4j
 @ChannelHandler.Sharable
-public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> implements ConnectorManager
+public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 {
 
 
-    /**
-     * 用于记录和管理所有客户端的channel
-     */
-    private ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    private ConcurrentHashMap<ChannelHandlerContext, User> contextUserMap = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Long, ChannelHandlerContext> userIdContextMap = new ConcurrentHashMap<>();
-    private Set<ChannelHandlerContext>  handlerContextSet = new ConcurrentHashSet<>();
-
-
-    @Autowired
     private CommandBus commandBus;
+
+    private OnlineConnectorManager onlineConnectorManager;
+
+    public WsServerHandler(CommandBus commandBus, OnlineConnectorManager onlineConnectorManager)
+    {
+        this.commandBus = commandBus;
+        this.onlineConnectorManager = onlineConnectorManager;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
@@ -62,12 +50,17 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
                 command.setToken(packet.getBody().getContent().toString());
                 Object o = commandBus.sendWithResult(command);
                 if(o == null){
+                    log.info("非法用户的登录，断开连接");
                     ctx.close();
+                    return;
                 }
                 User user = ((User) o);
                 log.info("用户{}已登录", user);
-                contextUserMap.put(ctx, user);
-                userIdContextMap.put(user.getId(),ctx);
+                if(onlineConnectorManager.getUserIdContextMap().containsKey(user.getId())){
+                    ctx.close();
+                }
+                onlineConnectorManager.getContextUserMap().put(ctx, user);
+                onlineConnectorManager.getUserIdContextMap().put(user.getId(),ctx);
                 break;
             }
         }
@@ -77,8 +70,7 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
 
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
-        clients.add(ctx.channel());
-        handlerContextSet.add(ctx);
+        onlineConnectorManager.getHandlerContextSet().add(ctx);
         log.info("客户端建立连接，channel的短ID：[{}]", ctx.channel().id().asShortText());
     }
 
@@ -89,41 +81,21 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         log.info("客户端断开连接，channel的短ID：[{}]", ctx.channel().id().asShortText());
-        User user = contextUserMap.get(ctx);
-        if(user == null){
-            log.info("用户连接丢失, channel的短ID: {}", ctx.channel().id().asLongText() );
-            return;
+        User user = onlineConnectorManager.getContextUserMap().get(ctx);
+        if(user != null){
+            log.info("用户连接丢失, 用户为: {}", user );
+            onlineConnectorManager.getContextUserMap().remove(ctx);
+            onlineConnectorManager.getUserIdContextMap().remove(user.getId());
         }
 
-        contextUserMap.remove(ctx);
-        userIdContextMap.remove(user.getId());
-        handlerContextSet.remove(ctx);
-    }
-
-    @Override
-    public Boolean isOnline(Long userId)
-    {
-        return userIdContextMap.containsKey(userId);
+        onlineConnectorManager.getHandlerContextSet().remove(ctx);
     }
 
 
     @Override
-    public void pushToClient(String msg, Long userId)
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
     {
-        ChannelHandlerContext channelHandlerContext = userIdContextMap.get(userId);
-        channelHandlerContext.writeAndFlush(msg);
-    }
-
-
-    public List<User> getAllOnlineUser()
-    {
-        List<User> collect = contextUserMap.values().stream().collect(Collectors.toList());
-        return collect;
-    }
-
-    public List<String> getAllActiveConnect()
-    {
-        List<String> collect = handlerContextSet.stream().map(e -> e.channel().id().asShortText()).collect(Collectors.toList());
-        return collect;
+        log.info("出错啦");
+        cause.printStackTrace();
     }
 }

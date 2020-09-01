@@ -1,5 +1,6 @@
 package com.im.chat.controller;
 
+import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.netty.WsServerHandler;
 import com.im.user.entity.po.User;
 import com.mr.response.ServerResponse;
@@ -20,17 +21,17 @@ public class OnlineController
 {
 
     @Autowired
-    private WsServerHandler wsServerHandler;
+    private OnlineConnectorManager connectorManager;
 
 
     @GetMapping("/user/all")
     public ServerResponse<List<User>> getAllOnlineUser(){
-        List<User> allOnlineUser = wsServerHandler.getAllOnlineUser();
+        List<User> allOnlineUser = connectorManager.getAllOnlineUser();
         return ServerResponse.success(allOnlineUser);
     }
     @GetMapping("/handler/all")
     public ServerResponse<List<String>> getAllActiveConnect(){
-        List<String> allActiveConnect = wsServerHandler.getAllActiveConnect();
+        List<String> allActiveConnect = connectorManager.getAllActiveConnect();
         return ServerResponse.success(allActiveConnect);
     }
 }

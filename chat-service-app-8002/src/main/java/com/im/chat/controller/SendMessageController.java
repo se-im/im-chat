@@ -6,6 +6,7 @@ import com.im.chat.entity.po.SessionView;
 import com.im.chat.entity.vo.ClientMessageSendedVo;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.enums.MsgContentTypeEnum;
+import com.im.chat.util.LocalDateTimeUtil;
 import com.im.dispatcher.command.GroupChatCommand;
 import com.im.dispatcher.command.SingleChatCommand;
 import com.im.dispatcher.common.CommandBus;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Api(tags = "消息发送的api")
@@ -54,6 +57,7 @@ public class SendMessageController
             throw new BusinessException("当前用户没有该会话视图！会话Id错误！");
         }
 
+
         if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){
             Message message = Message.builder()
                     .senderId(user.getId())
@@ -63,7 +67,7 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.U.getCode())
-                    .createTime(new Date())
+                    .createTime(LocalDateTimeUtil.getDateByLocalDate())
                     .build();
             SingleChatCommand command = new SingleChatCommand();
             command.setMessage(message);
@@ -80,7 +84,7 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.G.getCode())
-                    .createTime(new Date())
+                    .createTime(LocalDateTimeUtil.getDateByLocalDate())
                     .build();
             GroupChatCommand command = new GroupChatCommand();
             command.setMessage(message);

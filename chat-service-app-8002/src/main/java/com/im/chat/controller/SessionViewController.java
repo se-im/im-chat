@@ -7,6 +7,7 @@ import com.im.chat.entity.vo.SessionViewVo;
 import com.im.chat.enums.CvsNotDisturbEnum;
 import com.im.chat.enums.CvsStickEnum;
 import com.im.chat.enums.CvsTypeEnum;
+import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
 import com.im.user.entity.vo.GroupUserBriefVo;
@@ -40,6 +41,9 @@ public class SessionViewController
 
     @Reference
     private IGroupService iGroupService;
+
+    @Autowired
+    private OnlineConnectorManager onlineConnectorManager;
 
     //cvsType --> U单聊  G群聊
     @ApiOperation(value = "创建会话")
@@ -124,8 +128,7 @@ public class SessionViewController
         sessionViewVo.setStick(CvsStickEnum.codeOf(sessionView.getStick()).getStatus());
         sessionViewVo.setNotDisturb(CvsNotDisturbEnum.codeOf(sessionView.getNotDisturb()).getStatus());
         sessionViewVo.setLastMessageTime(sessionView.getLastMessageTime().getTime());
-        boolean rd= Math.random() > 0.5;
-        sessionViewVo.setOnline(rd);
+        sessionViewVo.setOnline(onlineConnectorManager.isOnline(sessionView.getRelationEntityId()));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime lastMessageTime = sessionView.getLastMessageTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
@@ -133,7 +136,7 @@ public class SessionViewController
         if(lastMessageTime.isBefore(todayBeginning)){
             formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
         }else {
-            formatter = DateTimeFormatter.ofPattern("hh:mm");
+            formatter = DateTimeFormatter.ofPattern("yy-MM-dd hh:mm");
         }
         sessionViewVo.setLastMessageTimeFormated(formatter.format(lastMessageTime));
         return sessionViewVo;

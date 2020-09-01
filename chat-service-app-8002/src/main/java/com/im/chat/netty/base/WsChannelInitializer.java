@@ -1,6 +1,8 @@
 package com.im.chat.netty.base;
 
+import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.netty.WsServerHandler;
+import com.im.dispatcher.common.CommandBus;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -15,7 +17,10 @@ import org.springframework.stereotype.Component;
 public class WsChannelInitializer extends ChannelInitializer
 {
     @Autowired
-    private WsServerHandler serverHandler;
+    private OnlineConnectorManager onlineConnectorManager;
+
+    @Autowired
+    private CommandBus commandBus;
     @Override
     protected void initChannel(Channel ch) {
         ChannelPipeline pipeline = ch.pipeline();
@@ -28,6 +33,6 @@ public class WsChannelInitializer extends ChannelInitializer
         // 以上三个处理器是对http协议的支持
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         // 自定义的处理器
-        pipeline.addLast(serverHandler);
+        pipeline.addLast(new WsServerHandler(commandBus, onlineConnectorManager));
     }
 }
