@@ -8,10 +8,14 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WsChannelInitializer extends ChannelInitializer
 {
-
+    @Autowired
+    private WsServerHandler serverHandler;
     @Override
     protected void initChannel(Channel ch) {
         ChannelPipeline pipeline = ch.pipeline();
@@ -24,6 +28,6 @@ public class WsChannelInitializer extends ChannelInitializer
         // 以上三个处理器是对http协议的支持
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         // 自定义的处理器
-        pipeline.addLast(new WsServerHandler());
+        pipeline.addLast(serverHandler);
     }
 }

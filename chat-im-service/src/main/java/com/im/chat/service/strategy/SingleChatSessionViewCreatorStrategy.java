@@ -30,9 +30,10 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
     {
         SessionView sessionView1 = sessionViewMapper.getSessionViewForEntity(curUser.getId(), entityId, CvsTypeEnum.U.getCode());
         User destUser = iUserService.getUserById(entityId);
-
         if(sessionView1 == null){
-            createSingleSessionView(curUser.getId(), destUser);
+            Long id = createSingleSessionView(curUser.getId(), destUser);
+            sessionView1 = new SessionView();
+            sessionView1.setId(id);
         }
 
         SessionView sessionViewForDest = sessionViewMapper.getSessionViewForEntity(destUser.getId(), curUser.getId(), CvsTypeEnum.U.getCode());
@@ -47,7 +48,7 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
 
 
 
-    private void createSingleSessionView(Long ownerId, User destUser) throws BusinessException
+    private Long createSingleSessionView(Long ownerId, User destUser) throws BusinessException
     {
         SessionView sessionView = new SessionView();
 
@@ -62,5 +63,7 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
         if(res < 1){
             throw new BusinessException("创建会话识图失败");
         }
+
+        return sessionView.getId();
     }
 }

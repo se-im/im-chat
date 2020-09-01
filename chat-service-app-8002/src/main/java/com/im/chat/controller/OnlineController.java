@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(tags = "收件箱相关的api")
+@Api(tags = "在线用户相关api")
 @RestController
 @RequestMapping("/chat1/online/")
 @CrossOrigin

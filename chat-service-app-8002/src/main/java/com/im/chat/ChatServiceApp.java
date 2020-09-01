@@ -34,24 +34,24 @@ public class ChatServiceApp implements CommandLineRunner
     @Override
     public void run(String... args) throws Exception
     {
-//        new Thread(()->{
-//            log.info("打开websocket");
-//            webSocketServer.start();
-//            Runtime.getRuntime().addShutdownHook(new Thread(){
-//                @Override
-//                public synchronized void start()
-//                {
-//                    log.info("关闭websocket");
-//                    try
-//                    {
-//                        webSocketServer.shutDown();
-//                    } catch (Exception e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }).start();
+        new Thread(()->{
+            log.info("打开websocket");
+            webSocketServer.start();
+            Runtime.getRuntime().addShutdownHook(new Thread(){
+                @Override
+                public synchronized void start()
+                {
+                    log.info("关闭websocket");
+                    try
+                    {
+                        webSocketServer.shutDown();
+                    } catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }).start();
 
     }
 

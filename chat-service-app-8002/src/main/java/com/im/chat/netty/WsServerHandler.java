@@ -8,6 +8,7 @@ import com.im.dispatcher.common.CommandBus;
 import com.im.sync.netty.ConnectorManager;
 import com.im.user.entity.po.User;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -29,8 +30,10 @@ import java.util.stream.Collectors;
 
 @Component("connectorManager")
 @Slf4j
+@ChannelHandler.Sharable
 public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> implements ConnectorManager
 {
+
 
     /**
      * 用于记录和管理所有客户端的channel

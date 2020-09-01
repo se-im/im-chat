@@ -8,6 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,9 @@ public class WebSocketServer
 	private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 	private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+	@Autowired
+	private WsChannelInitializer wsChannelInitializer;
+
 	
 	
 	public void start()  {
@@ -35,7 +39,7 @@ public class WebSocketServer
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
 			.option(ChannelOption.SO_BACKLOG, 1024)
-			.childHandler(new WsChannelInitializer());
+			.childHandler(wsChannelInitializer);
 
 			ChannelFuture channelFuture = b.bind(new InetSocketAddress(port)).sync();
 			channelFuture.channel().closeFuture().sync();
