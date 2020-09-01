@@ -1,7 +1,7 @@
 server:
   port: 8002
 logging:
-  level.root: debug
+  level.root: info
 
 logging.level.org.apache.dubbo.registry.nacos: error
 
@@ -10,7 +10,7 @@ spring:
   datasource:
     username: root
     password: cloudalibaba
-    url: jdbc:mysql://zmz121.cn:3306/im?useSSL=true&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://zmz121.cn:3306/im?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   redis:

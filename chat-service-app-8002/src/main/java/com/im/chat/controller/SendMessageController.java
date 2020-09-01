@@ -16,6 +16,7 @@ import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/chat/message/")
 @CrossOrigin
+@Slf4j
 public class SendMessageController
 {
 
@@ -57,7 +59,8 @@ public class SendMessageController
             throw new BusinessException("当前用户没有该会话视图！会话Id错误！");
         }
 
-
+        Date dateByLocalDate = LocalDateTimeUtil.getDateByLocalDate();
+        log.info("Controller里获取的时间 {}",dateByLocalDate.getTime());
         if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){
             Message message = Message.builder()
                     .senderId(user.getId())
@@ -76,6 +79,7 @@ public class SendMessageController
             commandBus.send(command);
         }else if(sessionView.getCvsType().equals(CvsTypeEnum.G.getCode()))
         {
+
             Message message = Message.builder()
                     .senderId(user.getId())
                     .senderName(user.getUsername())
@@ -84,7 +88,7 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.G.getCode())
-                    .createTime(LocalDateTimeUtil.getDateByLocalDate())
+                    .createTime(dateByLocalDate)
                     .build();
             GroupChatCommand command = new GroupChatCommand();
             command.setMessage(message);

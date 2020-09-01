@@ -9,6 +9,7 @@ public class LocalDateTimeUtilTest
 {
     @Test
     public void test01(){
-        System.out.println(LocalDateTimeUtil.getDateByLocalDate());
+        System.out.println(LocalDateTimeUtil.getDateByLocalDate().getTime());
+        System.out.println(System.currentTimeMillis());
     }
 }

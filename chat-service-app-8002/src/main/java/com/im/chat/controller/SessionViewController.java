@@ -136,7 +136,7 @@ public class SessionViewController
         if(lastMessageTime.isBefore(todayBeginning)){
             formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
         }else {
-            formatter = DateTimeFormatter.ofPattern("yy-MM-dd hh:mm");
+            formatter = DateTimeFormatter.ofPattern("hh:mm");
         }
         sessionViewVo.setLastMessageTimeFormated(formatter.format(lastMessageTime));
         return sessionViewVo;
