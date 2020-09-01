@@ -36,6 +36,9 @@ public class InboxVo
     @ApiModelProperty("发送消息的用户的头像")
     private String senderAvatarUrl;
 
+    @ApiModelProperty("消息内容的类型")
+    private String msgContentType;
+
     @ApiModelProperty("消息是否已读：0-没有；1-已读")
     //
     private Boolean readed;

@@ -9,12 +9,15 @@ import com.im.chat.enums.CvsStickEnum;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
+import com.im.user.entity.vo.GroupUserBriefVo;
+import com.im.user.service.IGroupService;
 import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,9 @@ public class SessionViewController
 {
     @Autowired
     private ISessionViewService iSessionViewService;
+
+    @Reference
+    private IGroupService iGroupService;
 
     //cvsType --> U单聊  G群聊
     @ApiOperation(value = "创建会话")
@@ -62,23 +68,49 @@ public class SessionViewController
         return ServerResponse.success(sessionViewVoList);
     }
 
-//    @ApiOperation(value = "查找当前用户与某个好友的会话视图")
-//    @GetMapping("/querySessionView")
-//    //cvsType 时间Long
-//    public ServerResponse<SessionViewVo> querySessionView(@CurrentUser @ApiIgnore User user,Long friendId,String cvsType)
-//    {
-//        SessionView sessionView = iSessionViewService.querySessionView(user.getId(), friendId, cvsType);
-//        if(sessionView == null){
-//            createSessionView(user, cvsType, friendId);
-//            sessionView = iSessionViewService.querySessionView(user.getId(), friendId, cvsType);
-//        }
-//        return ServerResponse.success(sessionViewVo);
-//    }
+    @ApiOperation(value = "将当前用户指定会话的未读消息数置零")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long"),
+    }
+    )
+    @PostMapping("/clearUnReaded")
+    //cvsType 时间Long
+    public ServerResponse<String> clearUnReaded(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
+        SessionView sessionView = iSessionViewService.selectById(cvsId);
+        if(sessionView == null){
+            throw new BusinessException("不存的会话视图");
+        }
+
+        //TODO 判断该会话视图是否属于当前用户
+        Long cvsOwnerId = sessionView.getOwnerId();
+        if(!cvsOwnerId.equals(user.getId())){
+            throw new BusinessException("当前用户没有该会话视图！会话Id错误！");
+        }
+        iSessionViewService.clearUnReaded(cvsId);
+        return ServerResponse.success();
+    }
+
+
+    @ApiOperation(value = "为某个群的所有成员创建一条会话视图")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "groupId", value = "群Id", required = true,dataType = "Long"),
+    }
+    )
+    @PostMapping("/createCvsForGroupUser")
+    public ServerResponse<String> createCvsForGroupUser(Long groupId) throws BusinessException {
+        List<GroupUserBriefVo> groupUserBriefVos = iGroupService.queryGroupUsers(groupId);
+        for(GroupUserBriefVo groupUserBriefVo:groupUserBriefVos){
+            Long userid = groupUserBriefVo.getUserid();
+            iSessionViewService.createSingleSessionView(userid,"G",groupId);
+        }
+        return ServerResponse.success();
+    }
+
 
     //TODO
     @ApiOperation(value = "删除会话视图")
     @GetMapping("/delete")
-    public ServerResponse<String> deleteSessionView(@CurrentUser @ApiIgnore User user,Long cvsId) throws BusinessException {
+    public ServerResponse<String> deleteSessionView(Long userId,String cvsType,Long cvsId) throws BusinessException {
         iSessionViewService.deleteSessionView(cvsId);
         return ServerResponse.success();
     }

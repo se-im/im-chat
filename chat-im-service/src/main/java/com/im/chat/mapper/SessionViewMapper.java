@@ -28,4 +28,6 @@ public interface SessionViewMapper {
     int updateUnreadNum(@Param("cvsId") Long cvsId, @Param("unreadNumAdded") Integer unreadNumAdded);
 
     int updateSessionViewWithUnreadMessageNum(SessionView record);
+
+    int updateUnReaded(Long cvsId);
 }

@@ -36,7 +36,7 @@ public class InboxController {
 
     //TODO 查询当前用户的收件箱 和 message联合表
 
-    @ApiOperation(value = "查询当前用户的收件箱")
+    @ApiOperation(value = "查询当前用户某个会话视图的收件箱")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
     })
@@ -51,6 +51,7 @@ public class InboxController {
             InboxVo inboxVo = new InboxVo();
             BeanUtils.copyProperties(inboxDo,inboxVo);
             inboxVo.setReaded(MsgReadedEnum.codeOf(inboxDo.getReaded()).getValue());
+            inboxVo.setMsgContentType(MsgReadedEnum.codeOf(inboxDo.getMsgContentType()).name());
             if(inboxDo.getSenderId().equals(user.getId())){
                 inboxVo.setSelfSend(true);
             }else{

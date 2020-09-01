@@ -58,7 +58,5 @@ git add .
 git commit -m ""
 git push origin master
 
-//TODO 不存在会话视图则创建 单向
-将绘画的未读消息设成接口
-查询当前用户的收件箱 和message联合表
-参数群id,为这个群的所有用户创建一条会话视图
+
+
