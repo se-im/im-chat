@@ -2,6 +2,7 @@ package com.im.chat.executor.common;
 
 import com.im.dispatcher.command.SingleChatCommand;
 import com.im.dispatcher.common.CommandBus;
+import com.mr.response.error.BusinessException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,7 @@ public class DefaultCommandBusTest
 
 
     @Test
-    public void testSendCommand()
-    {
+    public void testSendCommand() throws BusinessException {
         SingleChatCommand chatCommand = new SingleChatCommand();
 
         commandBus.send(chatCommand);

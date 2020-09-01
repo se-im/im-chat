@@ -1,6 +1,8 @@
 package com.im.dispatcher.common;
 
 
+import com.mr.response.error.BusinessException;
+
 public interface CommandExecutor<C extends Command>
 {
     /**
@@ -9,7 +11,7 @@ public interface CommandExecutor<C extends Command>
      * @param cmd
      * @return
      */
-    void executor(C cmd);
+    void executor(C cmd) throws BusinessException;
 
 
     /**
@@ -18,5 +20,5 @@ public interface CommandExecutor<C extends Command>
      * @param cmd
      * @return
      */
-    Object executeWithResult(C cmd);
+    Object executeWithResult(C cmd) throws BusinessException;
 }
