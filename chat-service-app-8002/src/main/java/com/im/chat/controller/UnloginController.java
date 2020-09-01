@@ -15,6 +15,5 @@ public class UnloginController {
     public ServerResponse<String> unlogin() throws BusinessException
     {
         throw new BusinessException("没有登录的用户，请先登录");
-
     }
 }

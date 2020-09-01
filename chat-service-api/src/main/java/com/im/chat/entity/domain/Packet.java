@@ -9,13 +9,3 @@ public class Packet
     private Body body;
 }
 
-@Data
-class Header{
-    private String version;
-}
-
-@Data
-class Body{
-    private Integer packetType;
-    private String content;
-}

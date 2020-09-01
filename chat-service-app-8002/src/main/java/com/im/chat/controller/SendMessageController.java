@@ -68,6 +68,7 @@ public class SendMessageController
             SingleChatCommand command = new SingleChatCommand();
             command.setMessage(message);
             command.setSendSessionView(sessionView);
+            command.setSenderUser(user);
             commandBus.send(command);
         }else if(sessionView.getCvsType().equals(CvsTypeEnum.G.getCode()))
         {

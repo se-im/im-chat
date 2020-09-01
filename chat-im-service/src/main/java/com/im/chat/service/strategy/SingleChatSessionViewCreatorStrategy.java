@@ -26,7 +26,7 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void createSessionView(User curUser, Long entityId) throws BusinessException
+    public Long createSessionView(User curUser, Long entityId) throws BusinessException
     {
         SessionView sessionView1 = sessionViewMapper.getSessionViewForEntity(curUser.getId(), entityId, CvsTypeEnum.U.getCode());
         User destUser = iUserService.getUserById(entityId);
@@ -40,6 +40,8 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
         {
             createSingleSessionView(destUser.getId(), curUser);
         }
+
+        return sessionView1.getId();
 
     }
 

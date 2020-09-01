@@ -49,10 +49,10 @@ public class SessionViewController
     }
     )
     @PostMapping("/create")
-    public ServerResponse<String> createSessionView(@CurrentUser @ApiIgnore User user, String cvsType, Long entityId) throws BusinessException {
+    public ServerResponse<Long> createSessionView(@CurrentUser @ApiIgnore User user, String cvsType, Long entityId) throws BusinessException {
 
-        iSessionViewService.createSessionView(user,CvsTypeEnum.nameOf(cvsType),entityId);
-        return ServerResponse.success();
+        Long sessionViewId = iSessionViewService.createSessionView(user, CvsTypeEnum.nameOf(cvsType), entityId);
+        return ServerResponse.success(sessionViewId);
     }
 
     @ApiOperation(value = "查找当前用户的所有会话视图")

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface SessionViewCreatorStrategy
 {
-    void createSessionView(User curUser, Long entityId) throws BusinessException;
+    Long createSessionView(User curUser, Long entityId) throws BusinessException;
 }

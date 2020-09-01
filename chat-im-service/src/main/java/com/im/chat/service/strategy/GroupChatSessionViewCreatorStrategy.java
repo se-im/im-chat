@@ -25,13 +25,13 @@ public class GroupChatSessionViewCreatorStrategy implements SessionViewCreatorSt
     private SessionViewMapper sessionViewMapper;
 
     @Override
-    public void createSessionView(User curUser, Long entityId) throws BusinessException
+    public Long createSessionView(User curUser, Long entityId) throws BusinessException
     {
 
         Long userId = curUser.getId();
         SessionView sessionView1 = sessionViewMapper.getSessionViewForEntity(userId, entityId, CvsTypeEnum.G.getCode());
         if(sessionView1 != null){
-            throw new BusinessException("会话视图已存在！");
+            return sessionView1.getId();
         }
         GroupPo groupPo = groupService.queryGroupById(entityId);
         SessionView sessionView = new SessionView();
@@ -45,6 +45,7 @@ public class GroupChatSessionViewCreatorStrategy implements SessionViewCreatorSt
         if(res < 1){
             throw new BusinessException("创建会话识图失败");
         }
+        return sessionView.getId();
     }
 
 

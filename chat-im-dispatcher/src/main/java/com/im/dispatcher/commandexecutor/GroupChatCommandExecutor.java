@@ -68,7 +68,7 @@ public class GroupChatCommandExecutor implements CommandExecutor<GroupChatComman
         Message message = cmd.getMessage();
         SessionView sendSessionView = cmd.getSendSessionView();
         log.info("消息转发给自己：{}", sendSessionView.getOwnerId());
-        syncService.SyncMessage(message, sendSessionView);
+        syncService.SyncMessage(message, sendSessionView, cmd.getSenderUser());
     }
 
 
@@ -98,7 +98,7 @@ public class GroupChatCommandExecutor implements CommandExecutor<GroupChatComman
                     sessionViewService.insertSelective(sessionView);
                     sessionViewForEntity = sessionView;
                 }
-                syncService.SyncMessage(message, sessionViewForEntity);
+                syncService.SyncMessage(message, sessionViewForEntity, cmd.getSenderUser());
             });
         }
 
