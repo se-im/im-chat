@@ -26,4 +26,7 @@ public interface InboxMapper
     Long getLargestSyncId(@Param("userId") Long userId, @Param("cvsId") Long cvsId);
 
     List<InboxDo> selectInboxDoByUserIdCvsId(@Param("userId") Long userId, @Param("cvsId") Long cvsId);
+
+
+    List<InboxDo> selectInboxDoBySyncId(@Param("userId") Long userId, @Param("cvsId") Long cvsId, @Param("syncId") Long syncId);
 }
