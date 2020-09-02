@@ -73,7 +73,7 @@ public class InboxController {
     })
     @PostMapping("/query/syncid")
     public ServerResponse<List<InboxVo>> queryInboxBySyncId(@CurrentUser @ApiIgnore User user, Long cvsId, Long syncId) throws BusinessException {
-        List<InboxDo> inboxDos = iInboxService.queryInboxByUserIdCvsId(user.getId(), cvsId);
+        List<InboxDo> inboxDos = iInboxService.queryInboxBySyncId(user.getId(), cvsId, syncId);
         if(inboxDos == null){
             return ServerResponse.success(null);
         }
