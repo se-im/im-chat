@@ -43,7 +43,7 @@ public class MqConsumer {
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-                log.info();
+//                log.info();
                 Message msg = msgs.get(0);
                 String jsonString  = new String(msg.getBody());
                 Map<String,Object>map = JSON.parseObject(jsonString, Map.class);
