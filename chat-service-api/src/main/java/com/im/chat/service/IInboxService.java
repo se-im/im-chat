@@ -1,8 +1,6 @@
 package com.im.chat.service;
 
-import com.im.chat.entity.domin.InboxDo;
-import com.im.chat.entity.po.Inbox;
-import com.im.chat.entity.po.SessionView;
+import com.im.chat.entity.domain.InboxDo;
 import com.mr.response.error.BusinessException;
 
 import java.util.List;

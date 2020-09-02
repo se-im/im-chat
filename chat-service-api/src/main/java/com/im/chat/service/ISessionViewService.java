@@ -12,7 +12,7 @@ public interface ISessionViewService {
 
     public void createSingleSessionView(Long userId, String cvsType, Long entityId) throws BusinessException;
 
-    public void createSessionView(User curUser, CvsTypeEnum cvsType, Long entityId) throws BusinessException;
+    public Long createSessionView(User curUser, CvsTypeEnum cvsType, Long entityId) throws BusinessException;
 
     public List<SessionView> queryMySessionViewList(Long userId);
 

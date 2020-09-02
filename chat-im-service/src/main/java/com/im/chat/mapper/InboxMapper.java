@@ -1,8 +1,7 @@
 package com.im.chat.mapper;
 
-import com.im.chat.entity.domin.InboxDo;
+import com.im.chat.entity.domain.InboxDo;
 import com.im.chat.entity.po.Inbox;
-import com.im.chat.entity.vo.InboxVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

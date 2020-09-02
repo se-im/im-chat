@@ -47,7 +47,7 @@ else
 fi
 
 
-sudo docker run --name $container_name -p 8002:8002 -p 20002:20002 -d $image_name
+sudo docker run --name $container_name -p 8002:8002 -p 20002:20002 -p 8888:8888 -d $image_name
 
 if [ $? -ne 0 ]; then
   echo "容器启动失败"

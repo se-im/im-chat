@@ -151,7 +151,7 @@
     where owner_id = #{userId,jdbcType=BIGINT} and cvs_id = #{cvsId,jdbcType=BIGINT}
   </select>
 
-  <select id="selectInboxDoByUserIdCvsId" resultType="com.im.chat.entity.domin.InboxDo">
+  <select id="selectInboxDoByUserIdCvsId" resultType="com.im.chat.entity.domain.InboxDo">
 
     SELECT inbox.id as id, message.id as messageId,message.msg_content_type as msgContentType,message.msg as msg, inbox.cvs_id as cvsId,message.sender_id as senderId,message.sender_name as senderName,user.avatar_url as senderAvatarUrl,inbox.readed as readed, inbox.sync_id As syncId, message.create_time as createTime from
     im_inbox AS inbox  INNER JOIN im_message AS message INNER JOIN im_user AS user

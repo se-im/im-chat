@@ -1,4 +1,4 @@
-package com.im.chat.entity.domin;
+package com.im.chat.entity.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -6,6 +6,7 @@ import com.im.chat.entity.po.SessionView;
 import com.im.chat.entity.vo.ClientMessageSendedVo;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.enums.MsgContentTypeEnum;
+import com.im.chat.util.LocalDateTimeUtil;
 import com.im.dispatcher.command.GroupChatCommand;
 import com.im.dispatcher.command.SingleChatCommand;
 import com.im.dispatcher.common.CommandBus;
@@ -15,6 +16,7 @@ import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Api(tags = "消息发送的api")
 @RestController
 @RequestMapping("/chat/message/")
 @CrossOrigin
+@Slf4j
 public class SendMessageController
 {
 
@@ -54,6 +59,8 @@ public class SendMessageController
             throw new BusinessException("当前用户没有该会话视图！会话Id错误！");
         }
 
+        Date dateByLocalDate = LocalDateTimeUtil.getDateByLocalDate();
+        log.info("Controller里获取的时间 {}",dateByLocalDate.getTime());
         if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){
             Message message = Message.builder()
                     .senderId(user.getId())
@@ -63,14 +70,16 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.U.getCode())
-                    .createTime(new Date())
+                    .createTime(LocalDateTimeUtil.getDateByLocalDate())
                     .build();
             SingleChatCommand command = new SingleChatCommand();
             command.setMessage(message);
             command.setSendSessionView(sessionView);
+            command.setSenderUser(user);
             commandBus.send(command);
         }else if(sessionView.getCvsType().equals(CvsTypeEnum.G.getCode()))
         {
+
             Message message = Message.builder()
                     .senderId(user.getId())
                     .senderName(user.getUsername())
@@ -79,7 +88,7 @@ public class SendMessageController
                     .msgContentType(MsgContentTypeEnum.nameOf(clientMessageSendedVo.getMsgType()).getCode())
                     .receiverEntityId(sessionView.getRelationEntityId())
                     .receiverEntityType(CvsTypeEnum.G.getCode())
-                    .createTime(new Date())
+                    .createTime(dateByLocalDate)
                     .build();
             GroupChatCommand command = new GroupChatCommand();
             command.setMessage(message);

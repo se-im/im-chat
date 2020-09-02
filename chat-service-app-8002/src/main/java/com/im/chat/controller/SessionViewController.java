@@ -7,6 +7,7 @@ import com.im.chat.entity.vo.SessionViewVo;
 import com.im.chat.enums.CvsNotDisturbEnum;
 import com.im.chat.enums.CvsStickEnum;
 import com.im.chat.enums.CvsTypeEnum;
+import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.User;
 import com.im.user.entity.vo.GroupUserBriefVo;
@@ -41,6 +42,9 @@ public class SessionViewController
     @Reference
     private IGroupService iGroupService;
 
+    @Autowired
+    private OnlineConnectorManager onlineConnectorManager;
+
     //cvsType --> U单聊  G群聊
     @ApiOperation(value = "创建会话")
     @ApiImplicitParams({
@@ -49,10 +53,10 @@ public class SessionViewController
     }
     )
     @PostMapping("/create")
-    public ServerResponse<String> createSessionView(@CurrentUser @ApiIgnore User user, String cvsType, Long entityId) throws BusinessException {
+    public ServerResponse<Long> createSessionView(@CurrentUser @ApiIgnore User user, String cvsType, Long entityId) throws BusinessException {
 
-        iSessionViewService.createSessionView(user,CvsTypeEnum.nameOf(cvsType),entityId);
-        return ServerResponse.success();
+        Long sessionViewId = iSessionViewService.createSessionView(user, CvsTypeEnum.nameOf(cvsType), entityId);
+        return ServerResponse.success(sessionViewId);
     }
 
     @ApiOperation(value = "查找当前用户的所有会话视图")
@@ -124,8 +128,7 @@ public class SessionViewController
         sessionViewVo.setStick(CvsStickEnum.codeOf(sessionView.getStick()).getStatus());
         sessionViewVo.setNotDisturb(CvsNotDisturbEnum.codeOf(sessionView.getNotDisturb()).getStatus());
         sessionViewVo.setLastMessageTime(sessionView.getLastMessageTime().getTime());
-        boolean rd= Math.random() > 0.5;
-        sessionViewVo.setOnline(rd);
+        sessionViewVo.setOnline(onlineConnectorManager.isOnline(sessionView.getRelationEntityId()));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime lastMessageTime = sessionView.getLastMessageTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();

@@ -44,7 +44,7 @@ public class SingleChatCommandExecutor implements CommandExecutor<SingleChatComm
     {
         Message message = cmd.getMessage();
         SessionView sendSessionView = cmd.getSendSessionView();
-        syncService.SyncMessage(message, sendSessionView);
+        syncService.SyncMessage(message, sendSessionView, cmd.getSenderUser());
     }
 
 
@@ -58,7 +58,7 @@ public class SingleChatCommandExecutor implements CommandExecutor<SingleChatComm
             iSessionViewService.createSingleSessionView(message.getReceiverEntityId(),CvsTypeEnum.U.getName(), message.getSenderId());
         }
         //sync对方会话视图
-        syncService.SyncMessage(message, receiverSessionView);
+        syncService.SyncMessage(message, receiverSessionView, cmd.getSenderUser());
     }
 
     @Override

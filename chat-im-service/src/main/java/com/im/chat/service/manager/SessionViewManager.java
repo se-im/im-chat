@@ -6,11 +6,13 @@ import com.im.chat.entity.po.SessionView;
 import com.im.chat.mapper.SessionViewMapper;
 import com.im.user.entity.po.User;
 import com.mr.response.error.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 @Service
+@Slf4j
 public class SessionViewManager
 {
 
@@ -22,7 +24,8 @@ public class SessionViewManager
 
         sessionView.setLastMessage(message.getMsg());
         sessionView.setSenderName(message.getSenderName());
-        sessionView.setCreateTime(message.getCreateTime());
+        sessionView.setLastMessageTime(message.getCreateTime());
+        log.info("更新会话识图时间 {}", sessionView.getLastMessageTime().getTime());
         if(!online)
         {
             sessionViewMapper.updateSessionViewWithUnreadMessageNum(sessionView);

@@ -44,10 +44,10 @@ public class SessionViewServiceImpl implements ISessionViewService {
     private SessionViewCreatorContext sessionViewCreatorContext;
 
     @Override
-    public void createSessionView(User curUser, CvsTypeEnum cvsType, Long entityId) throws BusinessException {
+    public Long createSessionView(User curUser, CvsTypeEnum cvsType, Long entityId) throws BusinessException {
 
         SessionViewCreatorStrategy strategy = sessionViewCreatorContext.getStrategy(cvsType);
-        strategy.createSessionView(curUser, entityId);
+        return strategy.createSessionView(curUser, entityId);
     }
 
     @Override
