@@ -1,6 +1,9 @@
 package com.im.chat.mq;
 
 import com.alibaba.fastjson.JSON;
+import com.im.chat.service.SessionViewRedundantUpdation;
+import com.mr.response.error.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -18,6 +21,7 @@ import java.util.Map;
 
 
 @Component
+@Slf4j
 public class MqConsumer {
 
     private DefaultMQPushConsumer consumer;
@@ -27,6 +31,8 @@ public class MqConsumer {
     @Value("${mq.topicname}")
     private String topicName;
 
+    @Autowired
+    private SessionViewRedundantUpdation sessionViewRedundantUpdation;
 
     @PostConstruct
     public void init() throws MQClientException {
@@ -37,13 +43,19 @@ public class MqConsumer {
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-                //实现库存真正到数据库内扣减的逻辑
+                log.info();
                 Message msg = msgs.get(0);
                 String jsonString  = new String(msg.getBody());
                 Map<String,Object>map = JSON.parseObject(jsonString, Map.class);
-                Integer itemId = (Integer) map.get("itemId");
-                Integer amount = (Integer) map.get("amount");
+                Long userId = (Long) map.get("userId");
+                String userName = (String) map.get("userName");
+                String avatarUrl = (String) map.get("avatarUrl");
 
+                try {
+                    sessionViewRedundantUpdation.sessionViewUserRedundantUpdatate(userId,userName,avatarUrl);
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });
