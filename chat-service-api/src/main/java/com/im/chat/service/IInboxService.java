@@ -9,4 +9,6 @@ public interface IInboxService {
     public List<InboxDo> queryInboxByUserIdCvsId(Long userId, Long cvsId) throws BusinessException;
 
     public List<InboxDo> queryInboxBySyncId(Long userId, Long cvsId, Long syncId) throws BusinessException;
+
+    public List<InboxDo> queryInboxLastTenByUserIdCvsId(Long userId, Long cvsId) throws BusinessException;
 }
