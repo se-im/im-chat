@@ -6,6 +6,7 @@ import com.im.chat.entity.po.SessionView;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.mapper.SessionViewMapper;
 import com.im.user.entity.po.User;
+import com.im.user.service.IFriendService;
 import com.im.user.service.IUserService;
 import com.mr.response.error.BusinessException;
 import org.apache.dubbo.config.annotation.Reference;
@@ -20,6 +21,8 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
 {
     @Reference
     private IUserService iUserService;
+    @Reference
+    private IFriendService iFriendService;
 
     @Resource
     private SessionViewMapper sessionViewMapper;
@@ -52,6 +55,12 @@ public class SingleChatSessionViewCreatorStrategy implements SessionViewCreatorS
     {
         SessionView sessionView = new SessionView();
 
+        String note = iFriendService.queryFriendNote(ownerId, destUser.getId());
+        if(note.isEmpty()){
+            sessionView.setCvsName(destUser.getUsername());
+        }else{
+            sessionView.setCvsName(note);
+        }
         sessionView.setCvsName(destUser.getUsername());
         sessionView.setAvatarUrl(destUser.getAvatarUrl());
 

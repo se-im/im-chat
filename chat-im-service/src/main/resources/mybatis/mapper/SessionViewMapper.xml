@@ -296,5 +296,14 @@ update im_session_view
      where id = #{cvsId,jdbcType=BIGINT}
   </update>
 
+  <update id="updateNoteRedundantByuserIdownerId">
+    update im_session_view
+    set
+       cvs_name = #{cvsName,jdbcType=VARCHAR}
+
+    where relation_entity_id = #{relationEntityId,jdbcType=BIGINT} and owner_id = #{ownerId,jdbcType=BIGINT}
+  </update>
+
+
 
 </mapper>

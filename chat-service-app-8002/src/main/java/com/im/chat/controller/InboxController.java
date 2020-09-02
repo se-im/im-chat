@@ -41,6 +41,7 @@ public class InboxController {
             @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
     })
     @PostMapping("/query/all")
+
     public ServerResponse<List<InboxVo>> queryInboxByUserIdCvsIdSyncId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
         List<InboxDo> inboxDos = iInboxService.queryInboxByUserIdCvsId(user.getId(), cvsId);
         if(inboxDos == null){

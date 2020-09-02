@@ -84,7 +84,7 @@ public class SessionViewController
         if(sessionView == null){
             throw new BusinessException("不存的会话视图");
         }
-        System.out.println(cvsId+"bfbfbfnf");
+
         //TODO 判断该会话视图是否属于当前用户
         Long cvsOwnerId = sessionView.getOwnerId();
         if(!cvsOwnerId.equals(user.getId())){
