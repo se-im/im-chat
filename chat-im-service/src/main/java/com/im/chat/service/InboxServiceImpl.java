@@ -31,4 +31,15 @@ public class InboxServiceImpl implements IInboxService{
         List<InboxDo> inboxDos = inboxMapper.selectInboxDoByUserIdCvsId(userId, cvsId);
         return inboxDos;
     }
+
+    @Override
+    public List<InboxDo> queryInboxBySyncId(Long userId, Long cvsId, Long syncId) throws BusinessException
+    {
+        SessionView sessionView = sessionViewMapper.selectByPrimaryKey(cvsId);
+        if(sessionView == null){
+            throw new BusinessException("会话视图不存在！");
+        }
+        List<InboxDo> inboxDos = inboxMapper.selectInboxDoBySyncId(userId, cvsId, syncId);
+        return inboxDos;
+    }
 }
