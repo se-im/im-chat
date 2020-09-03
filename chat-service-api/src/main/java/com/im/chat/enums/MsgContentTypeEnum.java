@@ -7,7 +7,8 @@ public enum MsgContentTypeEnum
      * IMAGE 图片消息
      */
     TEXT(Byte.valueOf("0"),"text"),
-    IMAGE(Byte.valueOf("1"),"image");
+    IMAGE(Byte.valueOf("1"),"image"),
+    FILE(Byte.valueOf("2"),"file");
 
     MsgContentTypeEnum(Byte code)
     {
@@ -35,6 +36,7 @@ public enum MsgContentTypeEnum
         {
             case 0: return TEXT;
             case 1: return IMAGE;
+            case 2: return FILE;
             default: return null;
         }
     }
@@ -46,6 +48,8 @@ public enum MsgContentTypeEnum
             return IMAGE;
         }else if(name.equalsIgnoreCase("text")){
             return TEXT;
+        }else if(name.equalsIgnoreCase("file")){
+            return FILE;
         }else{
             return null;
         }

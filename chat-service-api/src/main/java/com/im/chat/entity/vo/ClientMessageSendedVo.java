@@ -13,7 +13,7 @@ public class ClientMessageSendedVo
     @NonNull
     private String msg;
 
-    @ApiModelProperty("消息类型；文本-text；图片；image")
+    @ApiModelProperty("消息类型；文本-text；图片-image；文件-file ")
     @NonNull
     private String msgType;
 
