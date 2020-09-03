@@ -51,7 +51,7 @@ public class Message
     private String msg;
 
     /**
-     * 消息类型：0-文本消息；1-图片消息
+     * 消息类型：0-文本消息；1-图片消息; 2-文件
      *
      * Column:    msg_content_type
      * Nullable:  false
