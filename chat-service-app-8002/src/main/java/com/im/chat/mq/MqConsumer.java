@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +29,6 @@ public class MqConsumer {
     @Value("${mq.nameserver.addr}")
     private String nameAddr;
 
-    @Value("${mq.topicname}")
-    private String topicName;
 
     @Autowired
     private SessionViewRedundantUpdation sessionViewRedundantUpdation;
@@ -37,25 +36,37 @@ public class MqConsumer {
     @PostConstruct
     public void init() throws MQClientException {
         consumer = new DefaultMQPushConsumer("stock_consumer_group");
-        consumer.setNamesrvAddr(nameAddr);
-        consumer.subscribe(topicName,"*");
+        consumer.setNamesrvAddr("1.zmz121.cn:9876");
+        consumer.subscribe("im_update","*");
 
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
                 log.info("接受消息m");
-                Message msg = msgs.get(0);
-                String jsonString  = new String(msg.getBody());
-                Map<String,Object>map = JSON.parseObject(jsonString, Map.class);
-                Long userId = (Long) map.get("userId");
-                String userName = (String) map.get("userName");
-                String avatarUrl = (String) map.get("avatarUrl");
 
-                try {
-                    sessionViewRedundantUpdation.sessionViewUserRedundantUpdatate(userId,userName,avatarUrl);
-                } catch (BusinessException e) {
+                try
+                {
+                    Message msg = msgs.get(0);
+                    log.info(String.valueOf(msgs.size()));
+                    String jsonString  = new String(msg.getBody());
+                    log.info(jsonString);
+                    Map<String,String> map = JSON.parseObject(jsonString, Map.class);
+                    Long userId = Long.parseLong(map.get("userId"));
+                    String userName = (String) map.get("userName");
+                    String avatarUrl = (String) map.get("avatarUrl");
+
+                    log.info("userId: {}  userName {}", userId, userName);
+
+                    try {
+                        log.info("开始更新");
+                        sessionViewRedundantUpdation.sessionViewUserRedundantUpdatate(userId,userName,avatarUrl);
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
+                }catch (Exception e){
                     e.printStackTrace();
                 }
+
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });

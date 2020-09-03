@@ -52,7 +52,7 @@ dubbo:
 mq:
   nameserver:
     addr: 192.169.2.206:9876
-  topicname: TopicTest
+  topicname: im_update
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
