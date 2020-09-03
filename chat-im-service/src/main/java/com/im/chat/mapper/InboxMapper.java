@@ -29,4 +29,8 @@ public interface InboxMapper
 
 
     List<InboxDo> selectInboxDoBySyncId(@Param("userId") Long userId, @Param("cvsId") Long cvsId, @Param("syncId") Long syncId);
+
+    List<InboxDo> selectLastTenInboxDoByUserIdCvsId(@Param("userId") Long userId, @Param("cvsId") Long cvsId);
+
+
 }

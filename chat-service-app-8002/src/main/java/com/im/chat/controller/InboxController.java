@@ -68,6 +68,34 @@ public class InboxController {
     //TODO 分页查询接口 pageHelper
     //TODO 查询当前用户某个会话视图的收件箱 （带SyncId）
 
+    @ApiOperation(value = "查询当前用户某个会话视图的收件箱的最后10条记录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
+    })
+    @PostMapping("/query/syncid/lastten")
+    public ServerResponse<List<InboxVo>> queryLastTenInboxByUserIdCvsIdSyncId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
+        List<InboxDo> inboxDos = iInboxService.queryInboxLastTenByUserIdCvsId(user.getId(), cvsId);
+        if(inboxDos == null){
+            return ServerResponse.success(null);
+        }
+        List<InboxVo> inboxVos = new ArrayList<InboxVo>();
+        for(InboxDo inboxDo : inboxDos){
+            InboxVo inboxVo = new InboxVo();
+            BeanUtils.copyProperties(inboxDo,inboxVo);
+            inboxVo.setReaded(MsgReadedEnum.codeOf(inboxDo.getReaded()).getValue());
+            inboxVo.setMsgContentType(MsgReadedEnum.codeOf(inboxDo.getMsgContentType()).name());
+            if(inboxDo.getSenderId().equals(user.getId())){
+                inboxVo.setSelfSend(true);
+            }else{
+                inboxVo.setSelfSend(false);
+            }
+            inboxVo.setCreateTime(inboxDo.getCreateTime().getTime());
+            inboxVos.add(inboxVo);
+        }
+
+        return ServerResponse.success(inboxVos);
+    }
+
     @ApiOperation(value = "根据syncId查询当前用户某个会话视图的收件箱")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
@@ -95,7 +123,6 @@ public class InboxController {
 
         return ServerResponse.success(inboxVos);
     }
-
 
 
 }
