@@ -4,6 +4,7 @@ package com.im.chat.controller;
 import com.im.chat.annotation.CurrentUser;
 import com.im.chat.entity.domain.InboxDo;
 import com.im.chat.entity.vo.InboxVo;
+import com.im.chat.enums.MsgContentTypeEnum;
 import com.im.chat.enums.MsgReadedEnum;
 import com.im.chat.service.IInboxService;
 import com.im.user.entity.po.User;
@@ -52,7 +53,7 @@ public class InboxController {
             InboxVo inboxVo = new InboxVo();
             BeanUtils.copyProperties(inboxDo,inboxVo);
             inboxVo.setReaded(MsgReadedEnum.codeOf(inboxDo.getReaded()).getValue());
-            inboxVo.setMsgContentType(MsgReadedEnum.codeOf(inboxDo.getMsgContentType()).name());
+            inboxVo.setMsgContentType(MsgContentTypeEnum.codeOf(inboxDo.getMsgContentType()).getName());
             if(inboxDo.getSenderId().equals(user.getId())){
                 inboxVo.setSelfSend(true);
             }else{
