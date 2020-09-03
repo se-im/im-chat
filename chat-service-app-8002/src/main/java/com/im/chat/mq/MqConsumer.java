@@ -29,6 +29,8 @@ public class MqConsumer {
     @Value("${mq.nameserver.addr}")
     private String nameAddr;
 
+    @Value("${mq.topicname}")
+    private String topicName;
 
     @Autowired
     private SessionViewRedundantUpdation sessionViewRedundantUpdation;
@@ -36,9 +38,9 @@ public class MqConsumer {
     @PostConstruct
     public void init() throws MQClientException {
         consumer = new DefaultMQPushConsumer("stock_consumer_group");
-        consumer.setNamesrvAddr("1.zmz121.cn:9876");
-        consumer.subscribe("im_update","*");
-
+        consumer.setNamesrvAddr(nameAddr);
+        consumer.subscribe(topicName,"*");
+        log.info("rocketmq开始监听");
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
