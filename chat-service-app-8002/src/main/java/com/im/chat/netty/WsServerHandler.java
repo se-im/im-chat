@@ -58,6 +58,7 @@ public class WsServerHandler extends SimpleChannelInboundHandler<TextWebSocketFr
                 log.info("用户{}已登录", user);
                 if(onlineConnectorManager.getUserIdContextMap().containsKey(user.getId())){
                     ctx.close();
+                    break;
                 }
                 onlineConnectorManager.getContextUserMap().put(ctx, user);
                 onlineConnectorManager.getUserIdContextMap().put(user.getId(),ctx);

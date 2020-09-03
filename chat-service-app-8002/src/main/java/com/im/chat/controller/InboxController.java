@@ -43,7 +43,7 @@ public class InboxController {
     })
     @PostMapping("/query/all")
 
-    public ServerResponse<List<InboxVo>> queryInboxByUserIdCvsIdSyncId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
+    public ServerResponse<List<InboxVo>> queryInboxByUserIdCvsId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
         List<InboxDo> inboxDos = iInboxService.queryInboxByUserIdCvsId(user.getId(), cvsId);
         if(inboxDos == null){
                 return ServerResponse.success(null);
@@ -73,7 +73,7 @@ public class InboxController {
             @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
     })
     @PostMapping("/query/syncid/lastten")
-    public ServerResponse<List<InboxVo>> queryLastTenInboxByUserIdCvsIdSyncId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
+    public ServerResponse<List<InboxVo>> queryLastTenInboxByUserIdCvsId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
         List<InboxDo> inboxDos = iInboxService.queryInboxLastTenByUserIdCvsId(user.getId(), cvsId);
         if(inboxDos == null){
             return ServerResponse.success(null);

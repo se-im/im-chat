@@ -9,8 +9,10 @@ import com.im.chat.enums.CvsStickEnum;
 import com.im.chat.enums.CvsTypeEnum;
 import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.service.ISessionViewService;
+import com.im.user.entity.po.GroupPo;
 import com.im.user.entity.po.User;
 import com.im.user.entity.vo.GroupUserBriefVo;
+import com.im.user.service.IFriendService;
 import com.im.user.service.IGroupService;
 import com.mr.response.ServerResponse;
 import com.mr.response.error.BusinessException;
@@ -42,6 +44,9 @@ public class SessionViewController
     @Reference
     private IGroupService iGroupService;
 
+    @Reference
+    private IFriendService iFriendService;
+
     @Autowired
     private OnlineConnectorManager onlineConnectorManager;
 
@@ -62,11 +67,22 @@ public class SessionViewController
     @ApiOperation(value = "查找当前用户的所有会话视图")
     @GetMapping("/list")
     //cvsType 时间Long
-    public ServerResponse<List<SessionViewVo>> queryMySessionViewList(@CurrentUser @ApiIgnore User user)
-    {
+    public ServerResponse<List<SessionViewVo>> queryMySessionViewList(@CurrentUser @ApiIgnore User user) throws BusinessException {
         List<SessionView> sessionViews = iSessionViewService.queryMySessionViewList(user.getId());
+
         List<SessionViewVo> sessionViewVoList = new ArrayList<SessionViewVo>();
         for(SessionView sessionView:sessionViews){
+            if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){
+                Long relationEntityId = sessionView.getRelationEntityId();
+                String note = iFriendService.queryFriendNote(user.getId(), relationEntityId);
+                if(!note.equals("")){
+                    sessionView.setCvsName(note);
+                }
+            }else if(sessionView.getCvsType().equals(CvsTypeEnum.G.getCode())){
+                Long relationEntityId = sessionView.getRelationEntityId();
+                GroupPo groupPo = iGroupService.queryGroupById(relationEntityId);
+                sessionView.setCvsName(groupPo.getName());
+            }
             sessionViewVoList.add(convertSessionView(sessionView));
         }
         return ServerResponse.success(sessionViewVoList);
