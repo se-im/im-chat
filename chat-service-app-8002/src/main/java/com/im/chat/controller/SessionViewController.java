@@ -11,6 +11,7 @@ import com.im.chat.netty.OnlineConnectorManager;
 import com.im.chat.service.ISessionViewService;
 import com.im.user.entity.po.GroupPo;
 import com.im.user.entity.po.User;
+import com.im.user.entity.vo.FriendUserBriefVo;
 import com.im.user.entity.vo.GroupUserBriefVo;
 import com.im.user.service.IFriendService;
 import com.im.user.service.IGroupService;
@@ -74,14 +75,17 @@ public class SessionViewController
         for(SessionView sessionView:sessionViews){
             if(sessionView.getCvsType().equals(CvsTypeEnum.U.getCode())){
                 Long relationEntityId = sessionView.getRelationEntityId();
-                String note = iFriendService.queryFriendNote(user.getId(), relationEntityId);
-                if(!note.equals("")){
-                    sessionView.setCvsName(note);
+//                String note = iFriendService.queryFriendNote(user.getId(), relationEntityId);
+                FriendUserBriefVo friendUserBriefVo = iFriendService.queryFriendBrief(user, relationEntityId);
+                if(!(friendUserBriefVo.getNote()).equals("")){
+                    sessionView.setCvsName(friendUserBriefVo.getNote());
                 }
+                sessionView.setAvatarUrl(friendUserBriefVo.getAvatarUrl());
             }else if(sessionView.getCvsType().equals(CvsTypeEnum.G.getCode())){
                 Long relationEntityId = sessionView.getRelationEntityId();
                 GroupPo groupPo = iGroupService.queryGroupById(relationEntityId);
                 sessionView.setCvsName(groupPo.getName());
+                sessionView.setAvatarUrl(groupPo.getAvatarUrl());
             }
             sessionViewVoList.add(convertSessionView(sessionView));
         }
