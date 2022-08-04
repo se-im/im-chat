@@ -39,7 +39,7 @@ public class InboxController {
 
     @ApiOperation(value = "查询当前用户某个会话视图的收件箱")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true, dataTypeClass = Long.class)
     })
     @PostMapping("/query/all")
 
@@ -70,7 +70,7 @@ public class InboxController {
 
     @ApiOperation(value = "查询当前用户某个会话视图的收件箱的最后10条记录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true, dataTypeClass = Long.class)
     })
     @PostMapping("/query/syncid/lastten")
     public ServerResponse<List<InboxVo>> queryLastTenInboxByUserIdCvsId(@CurrentUser @ApiIgnore User user, Long cvsId) throws BusinessException {
@@ -98,7 +98,7 @@ public class InboxController {
 
     @ApiOperation(value = "根据syncId查询当前用户某个会话视图的收件箱")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long")
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true, dataTypeClass = Long.class)
     })
     @PostMapping("/query/syncid")
     public ServerResponse<List<InboxVo>> queryInboxBySyncId(@CurrentUser @ApiIgnore User user, Long cvsId, Long syncId) throws BusinessException {

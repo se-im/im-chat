@@ -14,6 +14,7 @@ import com.im.user.entity.po.GroupPo;
 import com.im.user.entity.vo.GroupUserBriefVo;
 import com.im.user.service.IGroupService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,10 +40,8 @@ public class GroupChatCommandExecutor implements CommandExecutor<GroupChatComman
     private MessageMapper messageMapper;
 
 
-    @Reference
+    @DubboReference
     private IGroupService groupService;
-
-
 
 
 

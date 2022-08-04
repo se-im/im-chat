@@ -1,74 +1,13 @@
-server:
-  port: 8002
-logging:
-  level.root: info
-
-logging.level.org.apache.dubbo.registry.nacos: error
-
-
 spring:
-  datasource:
-    username: root
-    password: cloudalibaba
-    url: jdbc:mysql://zmz121.cn:3306/im?useSSL=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.alibaba.druid.pool.DruidDataSource
-  redis:
-    host: zmz121.cn
-    port: 6379
-    timeout: 3000
-    jedis:
-      pool:
-        max-active: 10
-        max-idle: 10
-        max-wait: 3
-    password: cloudalibaba
-
-
-  main:
-    allow-bean-definition-overriding: true
-
-
-token:
-  secret: nwafu
-  # 单位 分钟
-  expiration: 30
-
-netty:
-  port: 8888
-
-dubbo:
-  registry:
-    address: nacos://zmz121.cn:8848?namespace=f678b632-7899-4a2d-acd7-8c7c3394b573
-  protocol:
-    name: dubbo
-    port: 20002
-    serialization: kryo
-  consumer:
-    timeout: 20000
-  provider:
-    timeout: 20000
-
-mq:
-  nameserver:
-    addr: 1.zmz121.cn:9876
-  topicname: im_update
-
-mybatis:
-  config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
-
----
-
-spring:
-  profiles: local
-  redis:
-    host: localhost
-    port: 6379
-    timeout: 3000
-    jedis:
-      pool:
-        max-active: 10
-        max-idle: 10
-        max-wait: 3
-    password:
+  # 临时解决doc
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      config:
+        group: DEFAULT_GROUP
+        server-addr: zmz121.cn:8848
+  config:
+    import:
+      - optional:nacos:chat-service.yaml  # 监听 DEFAULT_GROUP:test.yml

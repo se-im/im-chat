@@ -54,8 +54,8 @@ public class SessionViewController
     //cvsType --> U单聊  G群聊
     @ApiOperation(value = "创建会话")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsType", value = "会话类型", required = true,dataType = "String", example = "U"),
-            @ApiImplicitParam(name = "entityId", value = "会话关联的实体Id", required = true,dataType = "Long", example = "18")
+            @ApiImplicitParam(name = "cvsType", value = "会话类型", required = true, dataTypeClass = String.class, example = "U"),
+            @ApiImplicitParam(name = "entityId", value = "会话关联的实体Id", required = true, dataTypeClass = Long.class, example = "18")
     }
     )
     @PostMapping("/create")
@@ -94,7 +94,7 @@ public class SessionViewController
 
     @ApiOperation(value = "将当前用户指定会话的未读消息数置零")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true,dataType = "Long"),
+            @ApiImplicitParam(name = "cvsId", value = "会话Id", required = true, dataTypeClass = Long.class),
     }
     )
     @PostMapping("/clearUnReaded")
@@ -117,7 +117,7 @@ public class SessionViewController
 
     @ApiOperation(value = "为某个群的所有成员创建一条会话视图")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "groupId", value = "群Id", required = true,dataType = "Long"),
+            @ApiImplicitParam(name = "groupId", value = "群Id", required = true, dataTypeClass = Long.class),
     }
     )
     @PostMapping("/createCvsForGroupUser")
